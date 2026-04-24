@@ -4,29 +4,29 @@ import Link from "next/link";
 export function SiteHeader() {
   return (
     <header className="bg-lystr-black text-white">
-      <div className="mx-auto flex max-w-(--container-narrow) items-center justify-between px-6 py-5 md:px-10">
-        <Link href="/" aria-label="Lystr hem">
+      <div className="mx-auto flex max-w-(--container-narrow) items-center justify-between px-6 py-6 md:px-10 md:py-7">
+        <Link href="/" aria-label="Lystr hem" className="flex items-center">
           <Image
             src="/lystr-wordmark-white.png"
             alt="Lystr"
-            width={112}
-            height={36}
+            width={220}
+            height={72}
             priority
-            className="h-8 w-auto"
+            className="h-12 w-auto md:h-14"
           />
         </Link>
         <nav className="flex items-center gap-6 text-sm">
-          <a href="#sa-funkar" className="hidden sm:inline text-white/80 hover:text-white">
+          <a href="/#sa-funkar" className="hidden sm:inline text-white/80 hover:text-white">
             Så funkar det
           </a>
-          <a href="#formaner" className="hidden sm:inline text-white/80 hover:text-white">
+          <a href="/#formaner" className="hidden sm:inline text-white/80 hover:text-white">
             Fördelar
           </a>
           <a
-            href="#kontakt"
-            className="rounded-full bg-lystr-red px-4 py-2 font-medium text-white hover:bg-lystr-red-hover transition-colors"
+            href="/#kalkylator"
+            className="rounded-full bg-lystr-red px-5 py-2.5 font-medium text-white hover:bg-lystr-red-hover transition-colors"
           >
-            Anmäl intresse
+            Räkna ut besparing
           </a>
         </nav>
       </div>

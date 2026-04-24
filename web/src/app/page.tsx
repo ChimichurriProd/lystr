@@ -1,7 +1,7 @@
 import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/hero";
 import { CustomerJourney } from "@/components/customer-journey";
-import { Calculator } from "@/components/calculator";
+import { ExplainerSection } from "@/components/explainer-section";
 import { Pillars } from "@/components/pillars";
 import { HowItWorks } from "@/components/how-it-works";
 import { Benefits } from "@/components/benefits";
@@ -15,7 +15,7 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <CustomerJourney />
-        <Calculator />
+        <ExplainerSection />
         <Pillars />
         <HowItWorks />
         <Benefits />
