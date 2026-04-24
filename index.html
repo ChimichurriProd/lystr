@@ -262,21 +262,25 @@ function buildQuestionsNav(allQuestions) {
       const a = document.createElement('a');
       a.href = '#q-' + doc.id + '-' + idx;
       a.textContent = q.heading.textContent.replace(/^\d+\.\d+\s*/, '');
-      a.onclick = (e) => { e.preventDefault(); showDoc(doc.id); setTimeout(() => { document.getElementById('q-' + doc.id + '-' + idx).scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); };
+      a.onclick = (e) => { e.preventDefault(); showDoc(doc.id, { preserveScroll: true }); requestAnimationFrame(() => { document.getElementById('q-' + doc.id + '-' + idx).scrollIntoView({ behavior: 'smooth', block: 'start' }); }); };
       nav.appendChild(a);
     });
   });
   document.getElementById('q-count').textContent = allQuestions.reduce((s, x) => s + x.questions.length, 0);
 }
 
-function showDoc(id) {
+function showDoc(id, opts = {}) {
+  const prev = document.querySelector('.doc.active');
+  const prevId = prev ? prev.id.replace('doc-', '') : null;
+  const switching = prevId !== id;
+
   document.querySelectorAll('.doc').forEach(d => d.classList.remove('active'));
   document.getElementById('doc-' + id).classList.add('active');
   document.querySelectorAll('.nav-doc').forEach(a => a.classList.toggle('active', a.dataset.doc === id));
   const activeContent = document.querySelector('#doc-' + id + ' .md');
   if (activeContent) buildToc(activeContent);
   else document.getElementById('toc').innerHTML = '';
-  window.scrollTo(0, 0);
+  if (switching && !opts.preserveScroll) window.scrollTo(0, 0);
 }
 
 // Persist answers in localStorage
@@ -335,9 +339,25 @@ function clearAnswers() {
 }
 
 function handleHash() {
-  const id = (location.hash || '#overview').replace('#', '').split('-')[0];
+  const raw = (location.hash || '#overview').replace('#', '');
   const valid = ['overview', 'lyster', 'lumiverse'];
-  showDoc(valid.includes(id) ? id : 'overview');
+
+  // Direct doc anchor (#overview, #lyster, #lumiverse)
+  if (valid.includes(raw)) { showDoc(raw); return; }
+
+  // Compound in-page anchor: h-<doc>-<idx> (TOC) or q-<doc>-<idx> (question)
+  const m = raw.match(/^[hq]-([a-z]+)-\d+$/);
+  if (m && valid.includes(m[1])) {
+    showDoc(m[1], { preserveScroll: true });
+    requestAnimationFrame(() => {
+      const el = document.getElementById(raw);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    return;
+  }
+
+  // Unknown hash: default to overview
+  showDoc('overview');
 }
 
 async function init() {
