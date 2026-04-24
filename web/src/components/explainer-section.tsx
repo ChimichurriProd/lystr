@@ -1,4 +1,11 @@
-import { VideoPlaceholder } from "./video-placeholder";
+/**
+ * Explainer video section.
+ *
+ * TEMPORARY: embeds a third-party video as a placeholder for visual
+ * pacing. Swap for <mux-player> + Lystr's own animation once the
+ * After Effects master is delivered and uploaded to Mux.
+ */
+const PLACEHOLDER_YOUTUBE_ID = "IJJBPuCwxN4";
 
 export function ExplainerSection() {
   return (
@@ -16,8 +23,22 @@ export function ExplainerSection() {
             solanläggning.
           </p>
         </div>
+
         <div className="mt-10">
-          <VideoPlaceholder />
+          <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-lystr-line bg-lystr-black shadow-[0_30px_80px_-20px_rgba(0,0,0,0.2)]">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${PLACEHOLDER_YOUTUBE_ID}?rel=0&modestbranding=1`}
+              title="Förklaring av Lystrs energiavtal (temporär placeholder)"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              className="absolute inset-0 h-full w-full"
+            />
+          </div>
+          <p className="mt-3 text-xs text-lystr-muted">
+            Tillfällig placeholder — Lystrs egen animerade förklaring ersätter
+            denna när den är klar.
+          </p>
         </div>
       </div>
     </section>
