@@ -1,20 +1,49 @@
 import Image from "next/image";
+import Link from "next/link";
 import { footer } from "@/content/homepage";
 
 export function SiteFooter() {
   return (
     <footer id="kontakt" className="mt-auto bg-lystr-black text-white">
       <div className="mx-auto max-w-(--container-narrow) px-6 py-16 md:px-10 md:py-20">
-        <div className="grid gap-10 md:grid-cols-3">
-          <div>
+        <div className="grid gap-10 md:grid-cols-4">
+          <div className="md:col-span-1">
             <Image
               src="/lystr-wordmark-white.png"
               alt="Lystr"
-              width={96}
-              height={30}
-              className="h-7 w-auto"
+              width={140}
+              height={44}
+              className="h-9 w-auto"
             />
             <p className="mt-4 text-sm text-white/60">{footer.parent}</p>
+          </div>
+
+          <div>
+            <h3 className="text-xs font-medium uppercase tracking-[0.12em] text-white/50">
+              Företaget
+            </h3>
+            <ul className="mt-4 space-y-2 text-base">
+              <li>
+                <Link href="/#sa-funkar" className="hover:text-lystr-red">
+                  Så funkar det
+                </Link>
+              </li>
+              <li>
+                <Link href="/artiklar" className="hover:text-lystr-red">
+                  Artiklar
+                </Link>
+              </li>
+              <li>
+                <Link href="/press" className="hover:text-lystr-red">
+                  Pressrum
+                </Link>
+              </li>
+              <li>
+                <Link href="/#samarbeten" className="hover:text-lystr-red">
+                  Samarbeten
+                </Link>
+              </li>
+            </ul>
           </div>
 
           <div>

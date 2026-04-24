@@ -6,6 +6,7 @@ import { CostAnatomy } from "@/components/cost-anatomy";
 import { Pillars } from "@/components/pillars";
 import { Benefits } from "@/components/benefits";
 import { Faq } from "@/components/faq";
+import { PartnersSection } from "@/components/partners-section";
 import { SiteFooter } from "@/components/site-footer";
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
         <Pillars />
         <Benefits />
         <Faq />
+        <PartnersSection />
       </main>
       <SiteFooter />
     </>

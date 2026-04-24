@@ -16,18 +16,24 @@ export function SiteHeader() {
           />
         </Link>
         <nav className="flex items-center gap-6 text-sm">
-          <a href="/#sa-funkar" className="hidden sm:inline text-white/80 hover:text-white">
+          <Link
+            href="/#sa-funkar"
+            className="hidden md:inline text-white/80 hover:text-white"
+          >
             Så funkar det
-          </a>
-          <a href="/#formaner" className="hidden sm:inline text-white/80 hover:text-white">
-            Fördelar
-          </a>
-          <a
+          </Link>
+          <Link
+            href="/artiklar"
+            className="hidden md:inline text-white/80 hover:text-white"
+          >
+            Artiklar
+          </Link>
+          <Link
             href="/#kalkylator"
             className="rounded-full bg-lystr-red px-5 py-2.5 font-medium text-white hover:bg-lystr-red-hover transition-colors"
           >
             Räkna ut besparing
-          </a>
+          </Link>
         </nav>
       </div>
     </header>
