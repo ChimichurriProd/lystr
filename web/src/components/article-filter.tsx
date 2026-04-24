@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import type { Article } from "@/content/content-types";
+import type { ArticleSummary } from "../../sanity/lib/types";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("sv-SE", {
@@ -12,7 +12,7 @@ function formatDate(iso: string) {
   });
 }
 
-export function ArticleFilter({ articles }: { articles: Article[] }) {
+export function ArticleFilter({ articles }: { articles: ArticleSummary[] }) {
   const [active, setActive] = useState<string>("Alla");
 
   const categories = useMemo(() => {
@@ -31,7 +31,6 @@ export function ArticleFilter({ articles }: { articles: Article[] }) {
 
   return (
     <>
-      {/* Filter chips */}
       {categories.length > 2 && (
         <div
           role="tablist"
@@ -66,7 +65,7 @@ export function ArticleFilter({ articles }: { articles: Article[] }) {
       ) : (
         <ul className="grid gap-6 md:grid-cols-2">
           {filtered.map((a) => (
-            <li key={a.slug}>
+            <li key={a._id}>
               <Link
                 href={`/artiklar/${a.slug}`}
                 className="group flex h-full flex-col justify-between rounded-2xl border border-lystr-line bg-white p-6 transition-colors hover:border-lystr-black md:p-8"

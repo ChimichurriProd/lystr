@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { pressReleases, pressContact } from "@/content/press";
+import {
+  fetchPressReleases,
+  fetchSiteSettings,
+} from "../../../sanity/lib/fetch";
 
 export const metadata = {
   title: "Pressrum · Lystr",
@@ -22,14 +25,16 @@ function formatDate(iso: string) {
   });
 }
 
-export default function PressIndexPage() {
-  const sorted = [...pressReleases].sort((a, b) => b.date.localeCompare(a.date));
+export default async function PressIndexPage() {
+  const [releases, site] = await Promise.all([
+    fetchPressReleases(),
+    fetchSiteSettings(),
+  ]);
 
   return (
     <>
       <SiteHeader />
       <main className="flex-1">
-        {/* Header */}
         <section className="bg-lystr-black text-white">
           <div className="mx-auto max-w-(--container-narrow) px-6 py-16 md:px-10 md:py-20">
             <p className="text-sm font-medium uppercase tracking-[0.12em] text-lystr-red">
@@ -50,79 +55,85 @@ export default function PressIndexPage() {
           </div>
         </section>
 
-        {/* Release list */}
         <section className="bg-lystr-cream">
           <div className="mx-auto max-w-(--container-narrow) px-6 py-16 md:px-10 md:py-20">
-            <ul className="space-y-4">
-              {sorted.map((r) => (
-                <li key={r.slug}>
-                  <Link
-                    href={`/press/${r.slug}`}
-                    className="group block rounded-2xl border border-lystr-line bg-white p-6 transition-colors hover:border-lystr-black md:p-8"
-                  >
-                    <p className="text-xs font-medium uppercase tracking-wider text-lystr-muted">
-                      {formatDate(r.date)}
-                    </p>
-                    <h2 className="mt-2 text-xl font-semibold text-lystr-black group-hover:text-lystr-red md:text-2xl">
-                      {r.title}
-                    </h2>
-                    <p className="mt-2 text-base text-lystr-slate">
-                      {r.excerpt}
-                    </p>
-                    <p className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-lystr-black">
-                      Läs pressmeddelandet
-                      <span aria-hidden>→</span>
-                    </p>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            {releases.length === 0 ? (
+              <p className="text-base text-lystr-muted">
+                Inga pressmeddelanden publicerade än.
+              </p>
+            ) : (
+              <ul className="space-y-4">
+                {releases.map((r) => (
+                  <li key={r._id}>
+                    <Link
+                      href={`/press/${r.slug}`}
+                      className="group block rounded-2xl border border-lystr-line bg-white p-6 transition-colors hover:border-lystr-black md:p-8"
+                    >
+                      <p className="text-xs font-medium uppercase tracking-wider text-lystr-muted">
+                        {formatDate(r.date)}
+                      </p>
+                      <h2 className="mt-2 text-xl font-semibold text-lystr-black group-hover:text-lystr-red md:text-2xl">
+                        {r.title}
+                      </h2>
+                      <p className="mt-2 text-base text-lystr-slate">
+                        {r.excerpt}
+                      </p>
+                      <p className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-lystr-black">
+                        Läs pressmeddelandet
+                        <span aria-hidden>→</span>
+                      </p>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </section>
 
-        {/* Press contact */}
-        <section className="bg-white">
-          <div className="mx-auto max-w-(--container-narrow) px-6 py-16 md:px-10 md:py-20">
-            <div className="rounded-2xl border border-lystr-line bg-lystr-cream p-6 md:p-10">
-              <p className="text-xs font-medium uppercase tracking-[0.12em] text-lystr-muted">
-                Presskontakt
-              </p>
-              <h2 className="mt-2 text-2xl font-semibold text-lystr-black md:text-3xl">
-                {pressContact.name}
-              </h2>
-              <dl className="mt-6 grid gap-4 sm:grid-cols-2">
-                <div>
-                  <dt className="text-xs font-medium uppercase tracking-wider text-lystr-muted">
-                    E-post
-                  </dt>
-                  <dd className="mt-1 text-base">
-                    <a
-                      href={`mailto:${pressContact.email}`}
-                      className="text-lystr-black hover:text-lystr-red"
-                    >
-                      {pressContact.email}
-                    </a>
-                  </dd>
-                </div>
-                {pressContact.phone && (
+        {site?.pressContactEmail && (
+          <section className="bg-white">
+            <div className="mx-auto max-w-(--container-narrow) px-6 py-16 md:px-10 md:py-20">
+              <div className="rounded-2xl border border-lystr-line bg-lystr-cream p-6 md:p-10">
+                <p className="text-xs font-medium uppercase tracking-[0.12em] text-lystr-muted">
+                  Presskontakt
+                </p>
+                <h2 className="mt-2 text-2xl font-semibold text-lystr-black md:text-3xl">
+                  {site.pressContactName ?? "Lystr Press"}
+                </h2>
+                <dl className="mt-6 grid gap-4 sm:grid-cols-2">
                   <div>
                     <dt className="text-xs font-medium uppercase tracking-wider text-lystr-muted">
-                      Telefon
+                      E-post
                     </dt>
                     <dd className="mt-1 text-base">
                       <a
-                        href={`tel:${pressContact.phone.replaceAll(" ", "").replaceAll("-", "")}`}
+                        href={`mailto:${site.pressContactEmail}`}
                         className="text-lystr-black hover:text-lystr-red"
                       >
-                        {pressContact.phone}
+                        {site.pressContactEmail}
                       </a>
                     </dd>
                   </div>
-                )}
-              </dl>
+                  {site.pressContactPhone && (
+                    <div>
+                      <dt className="text-xs font-medium uppercase tracking-wider text-lystr-muted">
+                        Telefon
+                      </dt>
+                      <dd className="mt-1 text-base">
+                        <a
+                          href={`tel:${site.pressContactPhone.replaceAll(" ", "").replaceAll("-", "")}`}
+                          className="text-lystr-black hover:text-lystr-red"
+                        >
+                          {site.pressContactPhone}
+                        </a>
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
       <SiteFooter />
     </>

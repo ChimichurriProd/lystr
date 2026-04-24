@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { howItWorks } from "@/content/homepage";
+import type { CalculatorSettings } from "../../sanity/lib/types";
 
 type Segment = {
   key: string;
@@ -29,40 +29,39 @@ const TONE_BG: Record<Segment["tone"], string> = {
   service: "bg-lystr-muted",
 };
 
-export function CostAnatomy() {
+export function CostAnatomy({ settings }: { settings: CalculatorSettings }) {
   const [bill, setBill] = useState(2500);
   const inputId = useId();
 
-  // Compose per-phase segment sets with tone tags (overlayed on content).
-  const today: Segment[] = [
-    { ...howItWorks.phases.today.segments[0], tone: "muted" },
-    { ...howItWorks.phases.today.segments[1], tone: "mid" },
-    { ...howItWorks.phases.today.segments[2], tone: "strong" },
-  ];
-  const contract: Segment[] = [
-    { ...howItWorks.phases.contract.segments[0], tone: "own" },
-    { ...howItWorks.phases.contract.segments[1], tone: "service" },
-    { ...howItWorks.phases.contract.segments[2], tone: "mid" },
-  ];
-  const post: Segment[] = [
-    { ...howItWorks.phases.post.segments[0], tone: "saving" },
-  ];
+  const today: Segment[] = settings.phases.todaySegments
+    .slice(0, 3)
+    .map((s, i) => ({ ...s, tone: (["muted", "mid", "strong"] as const)[i] }));
 
-  const postFill = howItWorks.phases.post.relativeWidth ?? 1;
+  const contract: Segment[] = settings.phases.contractSegments
+    .slice(0, 3)
+    .map((s, i) => ({ ...s, tone: (["own", "service", "mid"] as const)[i] }));
+
+  const postFill = settings.postContractRatio;
   const postTotal = bill * postFill;
+  const post: Segment[] = [
+    { key: "elgrid-small", label: "El från nätet", share: 1, tone: "saving" },
+  ];
 
   return (
     <section id="sa-funkar" className="bg-lystr-cream">
       <div className="mx-auto max-w-(--container-narrow) px-6 py-20 md:px-10 md:py-28">
         <div className="max-w-3xl">
           <p className="text-sm font-medium uppercase tracking-[0.12em] text-lystr-muted">
-            {howItWorks.eyebrow}
+            Så fungerar det
           </p>
           <h2 className="mt-2 text-3xl font-semibold leading-tight tracking-tight text-lystr-black md:text-5xl">
-            {howItWorks.title}
+            Samma månadskostnad. Helt annat värde.
           </h2>
           <p className="mt-4 text-base text-lystr-slate md:text-lg">
-            {howItWorks.subtitle}
+            Med Lystr betalar du ungefär samma månadsbelopp som idag. Men
+            pengarna bygger din egen energianläggning istället för att
+            försvinna till kraftbolaget. Ändra beloppet nedan och se hur det
+            ser ut för dig.
           </p>
         </div>
 
@@ -88,7 +87,7 @@ export function CostAnatomy() {
             <span className="pr-4 text-sm text-lystr-muted">kr/mån</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
-            {howItWorks.presets.map((n) => (
+            {settings.billPresets.map((n) => (
               <button
                 key={n}
                 type="button"
@@ -105,52 +104,50 @@ export function CostAnatomy() {
           </div>
         </div>
 
-        {/* Phase bars */}
         <div className="mt-10 space-y-10 md:mt-14">
           <PhaseBar
-            label={howItWorks.phases.today.label}
+            label={settings.phases.todayLabel}
             total={formatKr(bill)}
             totalSuffix="/mån"
             segments={today}
             containerFill={1}
             bill={bill}
-            caption={howItWorks.phases.today.caption}
-            destination={howItWorks.phases.today.destination}
+            caption={settings.phases.todayCaption}
+            destination={settings.phases.todayDestination}
           />
           <PhaseBar
-            label={howItWorks.phases.contract.label}
+            label={settings.phases.contractLabel}
             total={formatKr(bill)}
             totalSuffix="/mån"
             badge="Samma totalkostnad"
             segments={contract}
             containerFill={1}
             bill={bill}
-            caption={howItWorks.phases.contract.caption}
-            destination={howItWorks.phases.contract.destination}
+            caption={settings.phases.contractCaption}
+            destination={settings.phases.contractDestination}
             emphasise
           />
           <PhaseBar
-            label={howItWorks.phases.post.label}
+            label={settings.phases.postLabel}
             total={formatKr(postTotal)}
             totalSuffix="/mån"
             badge={`${Math.round((1 - postFill) * 100)}% lägre`}
             segments={post}
             containerFill={postFill}
             bill={bill}
-            caption={howItWorks.phases.post.caption}
-            destination={howItWorks.phases.post.destination}
+            caption={settings.phases.postCaption}
+            destination={settings.phases.postDestination}
           />
         </div>
 
-        {/* Insight card */}
         <div className="mt-12 rounded-3xl border border-lystr-line bg-white p-6 md:mt-16 md:p-8">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="max-w-xl">
               <h3 className="text-xl font-semibold text-lystr-black md:text-2xl">
-                {howItWorks.insight.headline}
+                {settings.insightHeadline}
               </h3>
               <p className="mt-2 text-base leading-relaxed text-lystr-slate">
-                {howItWorks.insight.body}
+                {settings.insightBody}
               </p>
             </div>
             <a
@@ -197,7 +194,6 @@ function PhaseBar({
           : "bg-white"
       }`}
     >
-      {/* Header row */}
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <div className="flex items-center gap-3">
           <h3 className="text-base font-semibold text-lystr-black md:text-lg">
@@ -225,7 +221,6 @@ function PhaseBar({
         </div>
       </div>
 
-      {/* Bar */}
       <div className="mt-4 flex h-14 overflow-hidden rounded-2xl bg-lystr-cream">
         {segments.map((s) => {
           const widthPct = s.share * containerFill * 100;
@@ -240,7 +235,6 @@ function PhaseBar({
         })}
       </div>
 
-      {/* Legend */}
       <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm">
         {segments.map((s) => {
           const value = bill * s.share * containerFill;
@@ -259,7 +253,6 @@ function PhaseBar({
         })}
       </ul>
 
-      {/* Caption + destination */}
       <div className="mt-5 grid gap-2 border-t border-lystr-line pt-4 md:grid-cols-[1fr_auto]">
         <p className="text-sm leading-relaxed text-lystr-slate">{caption}</p>
         <p className="text-xs uppercase tracking-wider text-lystr-muted">

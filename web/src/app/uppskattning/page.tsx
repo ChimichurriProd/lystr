@@ -1,7 +1,8 @@
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { EstimateResult } from "@/components/estimate-result";
-import { calculator } from "@/content/homepage";
+import { defaultCalculatorSettings } from "@/content/calculator-defaults";
+import { fetchCalculatorSettings } from "../../../sanity/lib/fetch";
 import Link from "next/link";
 
 export const metadata = {
@@ -20,9 +21,11 @@ export default async function UppskattningPage({
 }: {
   searchParams: SearchParams;
 }) {
-  const { postnummer = "", bill = "", housing = "" } = await searchParams;
-  const billNum = Number(bill);
+  const [{ postnummer = "", bill = "", housing = "" }, remoteSettings] =
+    await Promise.all([searchParams, fetchCalculatorSettings()]);
+  const settings = remoteSettings ?? defaultCalculatorSettings;
 
+  const billNum = Number(bill);
   const postnummerValid = /^\d{3}\s?\d{2}$/.test(postnummer.trim());
   const billValid = billNum >= 500 && billNum <= 20000;
   const housingValid = ["villa", "radhus", "fritidshus", "lagenhet"].includes(
@@ -38,12 +41,16 @@ export default async function UppskattningPage({
         {!isValid ? (
           <InvalidParams />
         ) : isIneligible ? (
-          <IneligibleState />
+          <IneligibleState
+            title={settings.ineligibleTitle}
+            body={settings.ineligibleBody}
+          />
         ) : (
           <EstimateResult
             postnummer={postnummer.trim()}
             monthlyBill={billNum}
             housing={housing}
+            settings={settings}
           />
         )}
       </main>
@@ -74,16 +81,14 @@ function InvalidParams() {
   );
 }
 
-function IneligibleState() {
+function IneligibleState({ title, body }: { title: string; body: string }) {
   return (
     <section className="bg-lystr-cream">
       <div className="mx-auto max-w-(--container-narrow) px-6 py-20 text-center md:px-10 md:py-28">
         <h1 className="text-3xl font-semibold tracking-tight text-lystr-black md:text-4xl">
-          {calculator.ineligible.title}
+          {title}
         </h1>
-        <p className="mx-auto mt-4 max-w-xl text-lystr-slate">
-          {calculator.ineligible.body}
-        </p>
+        <p className="mx-auto mt-4 max-w-xl text-lystr-slate">{body}</p>
         <Link
           href="/"
           className="mt-8 inline-flex h-12 items-center rounded-full border border-lystr-line bg-white px-7 text-base font-medium text-lystr-black hover:border-lystr-black"

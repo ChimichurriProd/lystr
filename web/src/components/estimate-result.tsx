@@ -2,13 +2,9 @@
 
 import { useActionState } from "react";
 import Link from "next/link";
-import { calculator, leadForm } from "@/content/homepage";
+import { leadForm } from "@/content/homepage";
+import type { CalculatorSettings } from "../../sanity/lib/types";
 import { submitLead, type LeadResult } from "@/app/actions/lead";
-
-const POST_CONTRACT_RATIO = 0.25; // 75% reduction after contract
-const CONTRACT_YEARS = 8;
-const POST_CONTRACT_YEARS = 30;
-const HOUSE_VALUE_INCREASE = 200_000;
 
 function formatKr(n: number): string {
   return new Intl.NumberFormat("sv-SE", {
@@ -24,15 +20,17 @@ export function EstimateResult({
   postnummer,
   monthlyBill,
   housing,
+  settings,
 }: {
   postnummer: string;
   monthlyBill: number;
   housing: string;
+  settings: CalculatorSettings;
 }) {
-  const postContractMonthly = monthlyBill * POST_CONTRACT_RATIO;
+  const postContractMonthly = monthlyBill * settings.postContractRatio;
   const monthlyDelta = monthlyBill - postContractMonthly;
-  const lifetimeSavings = monthlyDelta * 12 * POST_CONTRACT_YEARS;
-  const totalBenefit = lifetimeSavings + HOUSE_VALUE_INCREASE;
+  const lifetimeSavings = monthlyDelta * 12 * settings.postContractYears;
+  const totalBenefit = lifetimeSavings + settings.houseValueIncrease;
   const costOfYearDelay = monthlyDelta * 12;
   const postPct = (postContractMonthly / monthlyBill) * 100;
 
@@ -47,27 +45,24 @@ export function EstimateResult({
 
   return (
     <>
-      {/* Top — estimate headline */}
       <section className="bg-lystr-black text-white">
         <div className="mx-auto max-w-(--container-narrow) px-6 pt-12 pb-16 md:px-10 md:pt-16 md:pb-20">
-          <Link
-            href="/"
-            className="text-sm text-white/60 hover:text-white"
-          >
+          <Link href="/" className="text-sm text-white/60 hover:text-white">
             ← Tillbaka till start
           </Link>
           <p className="mt-8 text-sm font-medium uppercase tracking-[0.12em] text-lystr-red">
-            {calculator.result.heading}
+            Din uppskattning är klar
           </p>
           <h1 className="mt-3 text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
             {formatKr(totalBenefit)}
           </h1>
           <p className="mt-3 text-sm italic text-white/60">
-            Det räcker till en ny bil. Eller tio semestrar. Eller amortering på huslånet.
+            Det räcker till en ny bil. Eller tio semestrar. Eller amortering på
+            huslånet.
           </p>
           <p className="mt-5 max-w-2xl text-lg text-white/75 md:text-xl">
-            Total uppskattad vinst över 30 år. Sänkta elkostnader efter avtalstid
-            plus värdehöjning på ditt hus.
+            Total uppskattad vinst över {settings.postContractYears} år. Sänkta
+            elkostnader efter avtalstid plus värdehöjning på ditt hus.
           </p>
           <p className="mt-4 text-sm text-white/50">
             Baserat på {formatKr(monthlyBill)}/mån i dagens elkostnad,{" "}
@@ -76,31 +71,29 @@ export function EstimateResult({
         </div>
       </section>
 
-      {/* Middle — bar comparison + stat cards */}
       <section className="bg-lystr-cream">
         <div className="mx-auto max-w-(--container-narrow) px-6 py-16 md:px-10 md:py-20">
           <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr] md:gap-12">
-            {/* Bar chart */}
             <div>
               <h2 className="text-2xl font-semibold tracking-tight text-lystr-black md:text-3xl">
                 Så ser din elkostnad ut med Lystr
               </h2>
               <div className="mt-8 space-y-5">
                 <BarRow
-                  label={calculator.result.currentLabel}
+                  label="Din nuvarande kostnad"
                   amountLabel={`${formatKr(monthlyBill)} / mån`}
                   widthPct={100}
                   tone="muted"
                 />
                 <BarRow
-                  label={calculator.result.contractLabel}
+                  label={`Under avtalstiden (${settings.contractYears} år)`}
                   amountLabel={`${formatKr(monthlyBill)} / mån`}
                   widthPct={100}
                   tone="black"
                   caption="Matchar din nuvarande kostnad, men nu producerar du din egen el."
                 />
                 <BarRow
-                  label={calculator.result.postContractLabel}
+                  label="Efter avtalstiden"
                   amountLabel={`${formatKr(postContractMonthly)} / mån`}
                   widthPct={postPct}
                   tone="red"
@@ -109,16 +102,15 @@ export function EstimateResult({
               </div>
             </div>
 
-            {/* Stat cards */}
             <div className="space-y-3">
               <StatCard
-                label={calculator.result.lifetimeSavings}
+                label={`Total besparing över ${settings.postContractYears} år`}
                 value={formatKr(lifetimeSavings)}
-                hint="Sänkt elkostnad × 30 år efter avtalstid."
+                hint={`Sänkt elkostnad × ${settings.postContractYears} år efter avtalstid.`}
               />
               <StatCard
-                label={calculator.result.houseValue}
-                value={`+${formatKr(HOUSE_VALUE_INCREASE)}`}
+                label="Värdehöjning på ditt hus"
+                value={`+${formatKr(settings.houseValueIncrease)}`}
                 hint="Genomsnittlig värdeökning för villa med solceller och batteri."
               />
               <StatCard
@@ -130,7 +122,6 @@ export function EstimateResult({
             </div>
           </div>
 
-          {/* Disclaimer — explicit, visible */}
           <div className="mt-10 rounded-2xl border border-lystr-line bg-white p-5 md:p-6">
             <div className="flex items-start gap-3">
               <div
@@ -141,14 +132,9 @@ export function EstimateResult({
               </div>
               <div className="text-sm text-lystr-slate">
                 <p className="font-semibold text-lystr-black">
-                  Preliminär uppskattning
+                  {settings.disclaimerTitle}
                 </p>
-                <p className="mt-1">
-                  Siffrorna på denna sida är preliminära och beräknade utifrån
-                  genomsnittliga värden. Innan ett avtal tecknas räknar Lystrs
-                  team fram en exakt kalkyl baserad på ditt tak, din
-                  förbrukningsprofil och aktuella priser.
-                </p>
+                <p className="mt-1">{settings.disclaimerBody}</p>
                 <p className="mt-1 text-xs text-lystr-muted">
                   Räknemodellen uppdateras löpande av Lystr-teamet.
                 </p>
@@ -158,7 +144,6 @@ export function EstimateResult({
         </div>
       </section>
 
-      {/* Bottom — lead form */}
       <section className="bg-white">
         <div className="mx-auto max-w-(--container-narrow) px-6 py-16 md:px-10 md:py-20">
           <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr] md:gap-12">
@@ -182,7 +167,6 @@ export function EstimateResult({
               action={leadAction}
               className="rounded-3xl border border-lystr-line bg-lystr-cream p-6 md:p-8"
             >
-              {/* Hidden context — carry calculator values */}
               <input type="hidden" name="postnummer" value={postnummer} />
               <input
                 type="hidden"
@@ -223,9 +207,7 @@ export function EstimateResult({
                 </p>
               )}
 
-              <p className="mt-5 text-xs text-lystr-muted">
-                {leadForm.consent}
-              </p>
+              <p className="mt-5 text-xs text-lystr-muted">{leadForm.consent}</p>
 
               <button
                 type="submit"

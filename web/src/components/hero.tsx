@@ -1,12 +1,19 @@
 import { hero } from "@/content/homepage";
+import type { CalculatorSettings } from "../../sanity/lib/types";
 import { HeroCalculatorForm } from "./hero-calculator-form";
 
-export function Hero() {
+const HOUSING_OPTIONS = [
+  { value: "villa", label: "Villa" },
+  { value: "radhus", label: "Radhus" },
+  { value: "fritidshus", label: "Fritidshus" },
+  { value: "lagenhet", label: "Lägenhet" },
+];
+
+export function Hero({ settings }: { settings: CalculatorSettings }) {
   return (
     <section className="bg-lystr-black text-white">
       <div className="mx-auto max-w-(--container-narrow) px-6 pt-12 pb-20 md:px-10 md:pt-20 md:pb-28">
         <div className="grid items-start gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-          {/* Left — message */}
           <div className="max-w-xl">
             <p className="mb-4 text-sm font-medium uppercase tracking-[0.12em] text-lystr-red">
               {hero.eyebrow}
@@ -18,7 +25,6 @@ export function Hero() {
               {hero.subhead}
             </p>
 
-            {/* Quick process summary — reinforces the 3-step journey */}
             <ol className="mt-10 space-y-3 text-sm text-white/70">
               <li className="flex items-center gap-3">
                 <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-lystr-red/90 text-xs font-semibold text-white">
@@ -40,7 +46,6 @@ export function Hero() {
               </li>
             </ol>
 
-            {/* Secondary CTA for people who want to skip ahead */}
             <div className="mt-8">
               <a
                 href={hero.secondaryCta.href}
@@ -52,8 +57,11 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right — calculator */}
-          <HeroCalculatorForm />
+          <HeroCalculatorForm
+            presets={settings.billPresets}
+            ineligibleMessage={settings.ineligibleBody}
+            housingOptions={HOUSING_OPTIONS}
+          />
         </div>
       </div>
     </section>

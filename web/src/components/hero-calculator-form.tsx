@@ -2,9 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { calculator } from "@/content/homepage";
 
-export function HeroCalculatorForm() {
+export function HeroCalculatorForm({
+  presets,
+  ineligibleMessage,
+  housingOptions,
+}: {
+  presets: number[];
+  ineligibleMessage: string;
+  housingOptions: { value: string; label: string }[];
+}) {
   const router = useRouter();
   const [postnummer, setPostnummer] = useState("");
   const [bill, setBill] = useState("");
@@ -30,7 +37,7 @@ export function HeroCalculatorForm() {
     }
 
     if (housing === "lagenhet") {
-      setError(calculator.ineligible.body);
+      setError(ineligibleMessage);
       return;
     }
 
@@ -62,7 +69,6 @@ export function HeroCalculatorForm() {
       </p>
 
       <div className="mt-6 space-y-5">
-        {/* Postnummer */}
         <label className="block">
           <span className="text-sm font-medium text-lystr-slate">
             Postnummer
@@ -77,7 +83,6 @@ export function HeroCalculatorForm() {
           />
         </label>
 
-        {/* Monthly bill */}
         <div>
           <label className="block">
             <span className="text-sm font-medium text-lystr-slate">
@@ -95,7 +100,7 @@ export function HeroCalculatorForm() {
             </div>
           </label>
           <div className="mt-2 flex flex-wrap gap-1.5">
-            {calculator.steps.bill.presets.map((n) => (
+            {presets.map((n) => (
               <button
                 key={n}
                 type="button"
@@ -112,13 +117,12 @@ export function HeroCalculatorForm() {
           </div>
         </div>
 
-        {/* Housing */}
         <div>
           <span className="block text-sm font-medium text-lystr-slate">
             Boendeform
           </span>
           <div role="radiogroup" className="mt-1.5 grid grid-cols-2 gap-2">
-            {calculator.steps.housing.options.map((o) => {
+            {housingOptions.map((o) => {
               const selected = housing === o.value;
               return (
                 <button

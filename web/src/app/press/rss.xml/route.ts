@@ -1,13 +1,17 @@
-import { pressReleases } from "@/content/press";
-import { blocksToHtml } from "@/lib/blocks-to-html";
+import { toHTML } from "@portabletext/to-html";
+import {
+  fetchPressReleases,
+  fetchPressRelease,
+} from "../../../../sanity/lib/fetch";
 import { buildRssXml } from "@/lib/rss";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
-export const dynamic = "force-static";
+export const revalidate = 600;
 
-export function GET() {
-  const sorted = [...pressReleases].sort((a, b) =>
-    b.date.localeCompare(a.date),
+export async function GET() {
+  const summaries = await fetchPressReleases();
+  const details = await Promise.all(
+    summaries.map((s) => fetchPressRelease(s.slug)),
   );
 
   const xml = buildRssXml({
@@ -15,14 +19,16 @@ export function GET() {
     description: "Officiella pressmeddelanden från Lystr.",
     link: `${SITE_URL}/press`,
     feedUrl: `${SITE_URL}/press/rss.xml`,
-    items: sorted.map((r) => ({
-      title: r.title,
-      url: `${SITE_URL}/press/${r.slug}`,
-      date: r.date,
-      description: r.excerpt,
-      contentHtml: blocksToHtml(r.body),
-      categories: ["Pressmeddelande"],
-    })),
+    items: details
+      .filter((r): r is NonNullable<typeof r> => Boolean(r))
+      .map((r) => ({
+        title: r.title,
+        url: `${SITE_URL}/press/${r.slug}`,
+        date: r.date,
+        description: r.excerpt,
+        contentHtml: toHTML(r.body),
+        categories: ["Pressmeddelande"],
+      })),
   });
 
   return new Response(xml, {

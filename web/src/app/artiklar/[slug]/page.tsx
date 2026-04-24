@@ -3,18 +3,23 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ArticleBody } from "@/components/article-body";
-import { articles } from "@/content/articles";
+import { PortableTextBody } from "@/components/portable-text-body";
+import {
+  fetchArticle,
+  fetchArticleSlugs,
+} from "../../../../sanity/lib/fetch";
+import { urlFor } from "../../../../sanity/lib/image";
 
 type Params = Promise<{ slug: string }>;
 
-export function generateStaticParams() {
-  return articles.map((a) => ({ slug: a.slug }));
+export async function generateStaticParams() {
+  const slugs = await fetchArticleSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params;
-  const article = articles.find((a) => a.slug === slug);
+  const article = await fetchArticle(slug);
   if (!article) return { title: "Artikel saknas · Lystr" };
   return {
     title: `${article.title} · Lystr`,
@@ -32,8 +37,13 @@ function formatDate(iso: string) {
 
 export default async function ArticlePage({ params }: { params: Params }) {
   const { slug } = await params;
-  const article = articles.find((a) => a.slug === slug);
+  const article = await fetchArticle(slug);
   if (!article) notFound();
+
+  const author = article.author;
+  const avatarUrl = author?.avatar
+    ? urlFor(author.avatar).width(112).height(112).fit("crop").url()
+    : null;
 
   return (
     <>
@@ -54,7 +64,7 @@ export default async function ArticlePage({ params }: { params: Params }) {
                 </span>
               )}
               <span>{formatDate(article.date)}</span>
-              {article.author && <span>· {article.author}</span>}
+              {author && <span>· {author.name}</span>}
             </div>
             <h1 className="mt-4 text-3xl font-semibold leading-tight tracking-tight md:text-5xl">
               {article.title}
@@ -67,21 +77,21 @@ export default async function ArticlePage({ params }: { params: Params }) {
 
         <section className="bg-white">
           <div className="mx-auto max-w-2xl px-6 py-16 md:px-10 md:py-20">
-            <ArticleBody blocks={article.body} />
+            <PortableTextBody value={article.body} />
 
-            {article.author && (
+            {author && (
               <div className="mt-16 flex items-center gap-4 border-t border-lystr-line pt-6">
-                {article.authorImage ? (
+                {avatarUrl ? (
                   <Image
-                    src={article.authorImage}
-                    alt={article.author}
+                    src={avatarUrl}
+                    alt={author.name}
                     width={56}
                     height={56}
                     className="h-14 w-14 rounded-full object-cover"
                   />
                 ) : (
                   <div className="flex h-14 w-14 items-center justify-center rounded-full bg-lystr-cream text-lg font-semibold text-lystr-black">
-                    {article.author
+                    {author.name
                       .split(" ")
                       .map((n) => n[0])
                       .slice(0, 2)
@@ -93,26 +103,28 @@ export default async function ArticlePage({ params }: { params: Params }) {
                     Skribent
                   </p>
                   <p className="mt-0.5 text-base font-semibold text-lystr-black">
-                    {article.authorUrl ? (
+                    {author.linkedin ? (
                       <a
-                        href={article.authorUrl}
+                        href={author.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover:text-lystr-red"
                       >
-                        {article.author} ↗
+                        {author.name} ↗
                       </a>
                     ) : (
-                      article.author
+                      author.name
                     )}
                   </p>
+                  {author.role && (
+                    <p className="text-xs text-lystr-muted">{author.role}</p>
+                  )}
                 </div>
               </div>
             )}
           </div>
         </section>
 
-        {/* Back to calculator CTA */}
         <section className="bg-lystr-cream">
           <div className="mx-auto max-w-(--container-narrow) px-6 py-12 md:px-10 md:py-16">
             <div className="flex flex-col items-start gap-4 rounded-2xl border border-lystr-line bg-white p-6 md:flex-row md:items-center md:justify-between md:p-8">

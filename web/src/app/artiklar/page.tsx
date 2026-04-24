@@ -1,7 +1,7 @@
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ArticleFilter } from "@/components/article-filter";
-import { articles } from "@/content/articles";
+import { fetchArticles } from "../../../sanity/lib/fetch";
 
 export const metadata = {
   title: "Artiklar · Lystr",
@@ -14,7 +14,9 @@ export const metadata = {
   },
 };
 
-export default function ArticlesIndexPage() {
+export default async function ArticlesIndexPage() {
+  const articles = await fetchArticles();
+
   return (
     <>
       <SiteHeader />

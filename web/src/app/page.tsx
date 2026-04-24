@@ -1,4 +1,5 @@
 import { SiteHeader } from "@/components/site-header";
+import { SiteBanner } from "@/components/site-banner";
 import { Hero } from "@/components/hero";
 import { CustomerJourney } from "@/components/customer-journey";
 import { ExplainerSection } from "@/components/explainer-section";
@@ -8,15 +9,21 @@ import { Benefits } from "@/components/benefits";
 import { Faq } from "@/components/faq";
 import { PartnersSection } from "@/components/partners-section";
 import { SiteFooter } from "@/components/site-footer";
+import { defaultCalculatorSettings } from "@/content/calculator-defaults";
+import { fetchCalculatorSettings } from "../../sanity/lib/fetch";
 
-export default function Home() {
+export default async function Home() {
+  const remote = await fetchCalculatorSettings();
+  const settings = remote ?? defaultCalculatorSettings;
+
   return (
     <>
+      <SiteBanner />
       <SiteHeader />
       <main className="flex-1">
-        <Hero />
+        <Hero settings={settings} />
         <CustomerJourney />
-        <CostAnatomy />
+        <CostAnatomy settings={settings} />
         <ExplainerSection />
         <Pillars />
         <Benefits />

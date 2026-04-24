@@ -1,20 +1,24 @@
-import { faq } from "@/content/homepage";
+import { PortableText } from "@portabletext/react";
+import { fetchFaq } from "../../sanity/lib/fetch";
 
-export function Faq() {
+export async function Faq() {
+  const items = await fetchFaq();
+  if (items.length === 0) return null;
+
   return (
     <section className="bg-lystr-cream">
       <div className="mx-auto max-w-(--container-narrow) px-6 py-20 md:px-10 md:py-24">
         <p className="text-sm font-medium uppercase tracking-[0.12em] text-lystr-muted">
-          En vanlig fråga
+          Vanliga frågor
         </p>
         <div className="mt-8 space-y-6">
-          {faq.map((item, i) => (
+          {items.map((item) => (
             <details
-              key={i}
+              key={item._id}
               className="group rounded-2xl border border-lystr-line bg-white p-6 md:p-7"
             >
               <summary className="flex cursor-pointer items-center justify-between gap-4 text-lg font-semibold text-lystr-black marker:hidden [&::-webkit-details-marker]:hidden">
-                {item.q}
+                {item.question}
                 <svg
                   width="16"
                   height="16"
@@ -29,9 +33,7 @@ export function Faq() {
                 </svg>
               </summary>
               <div className="mt-4 space-y-3 text-base leading-relaxed text-lystr-slate">
-                {item.a.map((p, j) => (
-                  <p key={j}>{p}</p>
-                ))}
+                <PortableText value={item.answer} />
               </div>
             </details>
           ))}
