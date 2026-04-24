@@ -27,6 +27,10 @@ export type Article = {
   title: string;
   date: string;
   author?: string;
+  /** External URL (LinkedIn, personal site) for the author. */
+  authorUrl?: string;
+  /** Path under /public for the author avatar (e.g. /authors/alex.jpg). */
+  authorImage?: string;
   category?: string;
   excerpt: string;
   body: ContentBlock[];

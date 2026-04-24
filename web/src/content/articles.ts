@@ -11,7 +11,9 @@ export const articles: Article[] = [
     slug: "solceller-under-vintern",
     title: "Fungerar verkligen solceller i Sverige?",
     date: "2026-04-10",
-    author: "Alex Söderström",
+    author: "Mathias Söderström",
+    authorUrl: "https://www.linkedin.com/in/mathias-s%C3%B6derstr%C3%B6m-ab92a7166/",
+    // authorImage: "/authors/mathias.jpg", // TODO: add photo when available
     category: "Guide",
     excerpt:
       "En av de vanligaste frågorna vi får: fungerar solceller verkligen i ett land med långa vintrar? Här är det korta svaret, och det längre.",
@@ -54,7 +56,9 @@ export const articles: Article[] = [
     slug: "vad-betyder-avtalet-for-ditt-hus",
     title: "Vad ett Lystr-avtal faktiskt betyder för ditt hus",
     date: "2026-03-22",
-    author: "Alex Söderström",
+    author: "Mathias Söderström",
+    authorUrl: "https://www.linkedin.com/in/mathias-s%C3%B6derstr%C3%B6m-ab92a7166/",
+    // authorImage: "/authors/mathias.jpg", // TODO: add photo when available
     category: "Om avtalet",
     excerpt:
       "Ett åttaårigt avtal låter som ett stort beslut. Här går vi igenom exakt vad du binder dig till, vad som ingår, och vad som händer om du flyttar.",

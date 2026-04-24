@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
@@ -67,6 +68,47 @@ export default async function ArticlePage({ params }: { params: Params }) {
         <section className="bg-white">
           <div className="mx-auto max-w-2xl px-6 py-16 md:px-10 md:py-20">
             <ArticleBody blocks={article.body} />
+
+            {article.author && (
+              <div className="mt-16 flex items-center gap-4 border-t border-lystr-line pt-6">
+                {article.authorImage ? (
+                  <Image
+                    src={article.authorImage}
+                    alt={article.author}
+                    width={56}
+                    height={56}
+                    className="h-14 w-14 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-lystr-cream text-lg font-semibold text-lystr-black">
+                    {article.author
+                      .split(" ")
+                      .map((n) => n[0])
+                      .slice(0, 2)
+                      .join("")}
+                  </div>
+                )}
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wider text-lystr-muted">
+                    Skribent
+                  </p>
+                  <p className="mt-0.5 text-base font-semibold text-lystr-black">
+                    {article.authorUrl ? (
+                      <a
+                        href={article.authorUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-lystr-red"
+                      >
+                        {article.author} ↗
+                      </a>
+                    ) : (
+                      article.author
+                    )}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </section>
 

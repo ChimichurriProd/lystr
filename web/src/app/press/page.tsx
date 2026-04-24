@@ -7,6 +7,11 @@ export const metadata = {
   title: "Pressrum · Lystr",
   description:
     "Pressmeddelanden och pressmaterial från Lystr. Kontaktuppgifter för press finns i slutet av sidan.",
+  alternates: {
+    types: {
+      "application/rss+xml": "/press/rss.xml",
+    },
+  },
 };
 
 function formatDate(iso: string) {
@@ -36,6 +41,11 @@ export default function PressIndexPage() {
             <p className="mt-4 max-w-2xl text-lg text-white/75">
               Här samlar vi officiella pressmeddelanden. För pressförfrågningar,
               intervjuer eller bildmaterial, kontakta oss nedan.
+            </p>
+            <p className="mt-4 text-xs text-white/50">
+              <a href="/press/rss.xml" className="hover:text-white">
+                RSS-flöde
+              </a>
             </p>
           </div>
         </section>

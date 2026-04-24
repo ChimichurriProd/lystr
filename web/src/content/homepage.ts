@@ -211,3 +211,17 @@ export const footer = {
   address: ["Stockholmsvägen 18", "181 50 Lidingö"],
   copyright: `© ${new Date().getFullYear()} Lystr`,
 };
+
+/**
+ * Social accounts. Only Lystr's company LinkedIn exists today. Instagram /
+ * Facebook / YouTube not live; ready to add when set up.
+ */
+export const social = [
+  {
+    platform: "LinkedIn",
+    handle: "lystr-energy",
+    url: "https://se.linkedin.com/company/lystr-energy",
+  },
+  // { platform: "Instagram", handle: "lystr", url: "https://instagram.com/lystr" },
+  // { platform: "Facebook", handle: "lystr", url: "https://facebook.com/lystr" },
+];
