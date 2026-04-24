@@ -3,8 +3,15 @@
 **Customer:** Lyster (energy company — solar + battery + 8-year electricity contract; part of Cleansun Sverige AB)
 **Agency:** Sriracha
 **Document status:** Draft for customer approval
-**Version:** 0.2
+**Version:** 0.3
 **Date:** 2026-04-24
+
+**Changes since v0.2:**
+- Reframed **Section 1** — added a closing paragraph naming the underlying business goal as *more leads, higher conversion, more sales*
+- Updated **Section 2.2** — explicitly flagged that the "~95% of leads via ETC" figure is operational intuition, not measured data
+- Added **Section 5.1 — Phase 0 Baseline & attribution**, renumbered 5.1–5.8 to 5.2–5.9
+- Added **Section 10.7** — open question on current attribution process and what "success" looks like
+- Updated totals to include Phase 0
 
 **Changes since v0.1:**
 - Added **Section 2** — current `lystr.se` technical baseline (what exists today)
@@ -19,7 +26,9 @@
 
 Lyster is a new-generation energy company. The offer to the end customer is simple on the surface — *byt elavtal till oss* — and complex underneath: the customer signs an 8-year contract at roughly their current energy cost, and in exchange gets a solar installation, battery, service, insurance, and financing bundled in. The customer owns the installation after the contract ends and cuts their energy cost by ~65% for the remaining 35–50+ years of the system's life.
 
-The offer works. Lyster has scaled from 18 MSEK/year as a solar company to 18 MSEK/month as an energy company, mostly via a piggyback partnership with ETC. The constraint now is that Lyster's own brand is underdeveloped — ~95% of leads come through ETC, ~5% through Lyster's own site. Lyster needs to make its own brand load-bearing so that (a) growth continues when the ETC channel saturates, (b) Lyster is credible when raising external capital, and (c) the offer can be understood by a customer in under a minute without a salesperson on the phone.
+The offer works. Lyster has scaled from 18 MSEK/year as a solar company to 18 MSEK/month as an energy company, mostly via a piggyback partnership with ETC. The constraint now is that Lyster's own brand is underdeveloped — the vast majority of leads come through ETC, with very few coming through Lyster's own site. Lyster needs to make its own brand load-bearing so that (a) growth continues when the ETC channel saturates, (b) Lyster is credible when raising external capital, and (c) the offer can be understood by a customer in under a minute without a salesperson on the phone.
+
+**Underlying business goal.** When Lyster comes to an agency asking for "brand + website + video", the real commercial ask is **more leads, higher conversion, more sales** — especially direct leads that don't depend on the ETC channel. This engagement is scoped and measured with that in mind. The creative work (brand, video, copy) is how Lyster earns attention; the website and platform are where that attention turns into bookings; the measurement layer (Phase 0 in Section 5.1) is how we prove the work moves the needle. Every deliverable in Sections 4 and 5 serves this outcome.
 
 ## 2. Current state — lystr.se technical baseline
 
@@ -42,7 +51,7 @@ Before designing the new site and stack, we audited what's live today. This matt
 
 ### 2.2 What's conspicuously missing
 
-- **No analytics at all.** No Google Analytics, Tag Manager, Meta Pixel, Plausible, Hotjar, or anything equivalent. The "5% of leads come through lystr.se" figure is a guess — there is no measurement in place.
+- **No analytics at all.** No Google Analytics, Tag Manager, Meta Pixel, Plausible, Hotjar, or anything equivalent. The often-cited split ("~95% of leads via ETC, ~5% via lystr.se") is **operational intuition, not measured data** — there is no analytics or attribution pipeline on either side that can reliably source inbound leads. Phase 0 (Section 5.1) is scoped specifically to fix this.
 - **No on-page form / lead capture.** If a visitor doesn't want to book a Calendly call, there's no alternative action — no email signup, no callback request, no contact form.
 - **No CRM integration visible** anywhere on the public site. Lead flow is manual from Calendly onward.
 - **No content / blog / knowledge base.**
@@ -127,7 +136,32 @@ This is the new part of the document. Lyster needs to decide, for each of the ar
 
 All Foundation-tier options are real, working choices — we are not proposing "free = bad". For a company of Lyster's current size and sales motion, Foundation is sufficient in several categories.
 
-### 5.1 Website platform & hosting
+### 5.1 Phase 0 — Baseline & attribution (recommended before Phase 1)
+
+Before any redesign work begins, spend ~2 weeks putting basic measurement in place so we have a *before-number* to compare against. Without this, neither Lyster nor Sriracha can honestly answer "did the redesign work?" after launch.
+
+**Today:**
+- lystr.se has **zero analytics** (see Section 2.2).
+- **No attribution between channels.** There is no way for Lyster to confirm whether a given inbound lead came from ETC, from the lystr.se Calendly, from word-of-mouth, or anywhere else. Alex's estimate that "~95% of leads come via ETC" is operational intuition, not measured data.
+- `etcel.se/elfrihet` (the actual high-converting landing page today) runs Plausible on ETC's side — but there are no UTM tags on any links from ETC to Lystr, so even cross-referencing is blocked.
+
+**What Phase 0 sets up:**
+- **Plausible installed on the current Framer site** — same day, no redesign dependency. Captures a 4–6 week baseline of visitors, sources, bounce, and Calendly click-through.
+- **UTM tagging on ETC → Lystr links** — coordinated with ETC. Lets us see, for every lystr.se visit, whether ETC was the referrer and which campaign.
+- **Source tagging in the sales workflow.** Every inbound lead (phone call, Calendly booking, future form submission) gets a one-field "source" tag — ETC / lystr.se / direct / other. Simple spreadsheet or CRM field; enforced by the sales team for 4–6 weeks.
+- **Lightweight "leads by source" dashboard** — a single Google Sheet or Plausible shared link showing the split week-by-week.
+
+**After Phase 0 we have:**
+- Real baseline traffic and conversion numbers for the current site.
+- Source attribution for current leads — the "95% from ETC" claim replaced by actual data.
+- A measurement framework that keeps running after the redesign launches, so the impact is provable.
+
+**Setup:** 17–25h → ~20 000 SEK (one-time).
+**Runs:** 4–6 weeks in parallel with Phase 1 design work (no extra cost, just time).
+
+⭐ **Strongly recommended.** Without this, the redesign ships without proof — and Lyster cannot defend the investment to future capital raises or internal stakeholders.
+
+### 5.2 Website platform & hosting
 
 | Tier | Stack | Why | Setup | Recurring |
 |---|---|---|---|---|
@@ -139,7 +173,7 @@ All Foundation-tier options are real, working choices — we are not proposing "
 
 **Note on Framer:** we could keep the site on Framer, but we do not recommend it. Framer's component model fights against the custom interactive walkthrough described in Section 4.3, and it locks you into Framer's pricing and export limits forever. Replacing with Next.js is a one-time cost that pays back in flexibility.
 
-### 5.2 Content editing (CMS)
+### 5.3 Content editing (CMS)
 
 The question is: when Lyster wants to change a headline or swap a photo six months from now, how does that happen?
 
@@ -151,7 +185,7 @@ The question is: when Lyster wants to change a headline or swap a photo six mont
 
 ⭐ **Our recommendation: Growth.** Given Lyster's size, the free Sanity tier covers needs indefinitely. Avoids the "every tiny copy change goes through the agency" trap.
 
-### 5.3 Analytics
+### 5.4 Analytics
 
 | Tier | What you get | Setup | Recurring |
 |---|---|---|---|
@@ -163,7 +197,7 @@ The question is: when Lyster wants to change a headline or swap a photo six mont
 
 **Why not GA4 by default?** It's free but requires a cookie consent banner in Sweden, adds friction, and its dashboard UX is notoriously hostile. Plausible covers the same questions without the baggage.
 
-### 5.4 Lead capture & CRM
+### 5.5 Lead capture & CRM
 
 Today the only way to become a lead is to book a Calendly call. That's a high-commitment ask for a visitor who just landed. A form ("get a no-obligation cost analysis") captures the 80% who aren't ready to talk yet.
 
@@ -177,7 +211,7 @@ Today the only way to become a lead is to book a Calendly call. That's a high-co
 
 **Confirmed open item:** Lyster to confirm whether HubSpot Free is acceptable, or if there's an existing CRM preference (Pipedrive, Upsales, Lime, etc.) — see open questions.
 
-### 5.5 Booking (Calendly)
+### 5.6 Booking (Calendly)
 
 | Tier | What you get | Setup | Recurring |
 |---|---|---|---|
@@ -187,7 +221,7 @@ Today the only way to become a lead is to book a Calendly call. That's a high-co
 
 ⭐ **Our recommendation: Growth** *if* more than one person fields calls, otherwise **Foundation**.
 
-### 5.6 Marketing automation (email)
+### 5.7 Marketing automation (email)
 
 Today: none. Visitors who aren't ready to book a call leave and never hear from Lyster again.
 
@@ -199,7 +233,7 @@ Today: none. Visitors who aren't ready to book a call leave and never hear from 
 
 ⭐ **Our recommendation: Growth** as a starter. Even a simple "thanks for your interest — here's what happens in the next 24h" email will materially lift conversion.
 
-### 5.7 SEO
+### 5.8 SEO
 
 | Tier | What you get | Setup | Recurring |
 |---|---|---|---|
@@ -209,10 +243,11 @@ Today: none. Visitors who aren't ready to book a call leave and never hear from 
 
 ⭐ **Our recommendation: Foundation now, Growth after 3 months** once we have analytics to target. Don't pay for SEO content until we know what visitors are searching for.
 
-### 5.8 Recommended "Growth" bundle (all ⭐ choices)
+### 5.9 Recommended "Growth" bundle (all ⭐ choices)
 
 | Category | Choice | Setup (SEK) | Recurring (SEK/mo) |
 |---|---|---|---|
+| Phase 0 | Baseline & attribution | 20 000 | 0 |
 | Platform | Next.js + Vercel Pro | 3 000 | 220 |
 | CMS | Sanity free tier | 20 000 – 35 000 | 0 |
 | Analytics | Plausible + PostHog free | 10 000 – 15 000 | 105 |
@@ -220,7 +255,7 @@ Today: none. Visitors who aren't ready to book a call leave and never hear from 
 | Booking | Calendly Standard | 4 000 – 8 000 | 110 per seat |
 | Marketing automation | Mailchimp Free starter | 10 000 – 20 000 | 0 |
 | SEO | Technical foundation | 0 | 0 |
-| **Bundle total** | | **~62 000 – 106 000 SEK** | **~435 SEK/mo + seats** |
+| **Bundle total** | | **~82 000 – 126 000 SEK** | **~435 SEK/mo + seats** |
 
 This is on top of the creative work (brand, video, website build, deck) priced in Section 11.
 
@@ -276,7 +311,7 @@ These items were resolved between v0.1 and v0.2 and are now locked:
 - **Subscriptions** — Lyster pays SaaS subscriptions directly. We choose free or low-cost tools by default.
 - **Management model** — Tiered options above (Section 6). Customer picks self-serve or a retainer.
 - **Website scope** — We replace the current Framer site in full.
-- **Tech stack** — Sriracha recommends, Lyster approves. Recommendation is Section 5.8 ("Growth bundle").
+- **Tech stack** — Sriracha recommends, Lyster approves. Recommendation is Section 5.9 ("Growth bundle").
 - **CRM integration** — Must be stated explicitly in proposal (see open questions for the choice itself).
 - **No bespoke/custom backend features** in this engagement.
 - **Rights & usage** — Full buyout. All source files (design, video, code) delivered to Lyster at end of engagement. Sriracha retains portfolio rights only.
@@ -289,7 +324,7 @@ These items were resolved between v0.1 and v0.2 and are now locked:
 - Music — licensed library track, or custom composition?
 - Language — Swedish only, or also English version for investor use?
 
-### 10.2 CRM choice (Section 5.4)
+### 10.2 CRM choice (Section 5.5)
 - Default recommendation: **HubSpot Free**. Acceptable to Lyster?
 - Existing CRM in use anywhere (sales, installation ops, customer service)? If yes, we integrate the new form to it.
 
@@ -308,6 +343,15 @@ These items were resolved between v0.1 and v0.2 and are now locked:
 
 ### 10.6 Shared agency email
 - Will Lyster provision a `@lystr.se` email address for Sriracha to use as the agency-on-record account for third-party services (Google Search Console, HubSpot admin, etc.)? Or do we use a Sriracha email and share credentials?
+
+### 10.7 Current attribution & the "95%" figure
+The engagement's core promise is *more leads, higher conversion, more sales*. To scope Phase 0 accurately (Section 5.1), we need to understand what's currently tracked, by whom, and how:
+
+- How does Lyster's sales team currently know where each inbound lead came from — is it tagged in a CRM, recorded in a spreadsheet, or reconstructed from call memory?
+- Are there any historical records (call logs, CRM exports, ETC lead lists) we can mine to sharpen the ~95% estimate before Phase 0 runs?
+- Who at Lyster owns the attribution process going forward — sales ops, marketing, or Alex directly?
+- **What does Lyster consider "success" from this engagement?** A specific lift in lead volume, a specific improvement in conversion rate, a qualitative shift (more direct leads, less ETC dependency), or something else? Without a defined success metric we cannot prove the redesign worked.
+- Is there a willingness to coordinate with ETC to add UTM tagging on links from `etcel.se/elfrihet` to lystr.se, or will Phase 0 need to operate without ETC cooperation?
 
 ## 11. Effort & price estimate
 
@@ -359,10 +403,11 @@ This is the website build only (design + dev). Platform/operations add-ons are i
 
 ### 11.4 Platform & operations — "Growth" bundle
 
-From Section 5.8. Pickable à la carte if Lyster wants a different tier in any category.
+From Section 5.9. Pickable à la carte if Lyster wants a different tier in any category.
 
 | Category | Price (SEK) |
 |---|---|
+| Phase 0 — Baseline & attribution | 20 000 |
 | Vercel Pro setup | 3 000 |
 | Sanity CMS | 20 000 – 35 000 |
 | Analytics (Plausible + PostHog) | 10 000 – 15 000 |
@@ -370,7 +415,7 @@ From Section 5.8. Pickable à la carte if Lyster wants a different tier in any c
 | Calendly integration | 4 000 – 8 000 |
 | Mailchimp starter + welcome email | 10 000 – 20 000 |
 | SEO technical foundation | included in 11.3 |
-| **Bundle total** | **62 000 – 106 000** |
+| **Bundle total** | **82 000 – 126 000** |
 
 ### 11.5 PowerPoint sales deck
 
@@ -395,11 +440,11 @@ All ⭐ choices: brand + explainer video + website + Growth platform bundle + de
 | Brand                         | 95 000       | 140 000      |
 | Explainer video (all-in)      | 195 000      | 310 000      |
 | Website (design & build)      | 200 000      | 320 000      |
-| Platform & ops — Growth bundle| 62 000       | 106 000      |
+| Platform & ops — Growth bundle *(incl. Phase 0)* | 82 000 | 126 000 |
 | PowerPoint deck               | 53 000       | 82 000       |
-| **Subtotal**                  | **605 000**  | **958 000**  |
-| Project management (12%)      | 72 600       | 114 960      |
-| **Grand total (ex. VAT)**     | **~680 000** | **~1 075 000** |
+| **Subtotal**                  | **625 000**  | **978 000**  |
+| Project management (12%)      | 75 000       | 117 360      |
+| **Grand total (ex. VAT)**     | **~700 000** | **~1 095 000** |
 | **Recurring SaaS (paid by Lyster direct)** | **~435 SEK/mo + per-seat** | |
 
 ### 11.8 Lean alternative — "Foundation" bundle
@@ -411,12 +456,15 @@ If budget is tight:
 | Brand (unchanged) | 95 000 – 140 000 |
 | Explainer video (unchanged) | 195 000 – 310 000 |
 | Website (unchanged) | 200 000 – 320 000 |
+| Phase 0 — Baseline & attribution | 20 000 |
 | Platform & ops — Foundation (form → email, Plausible only, no CMS) | 12 000 – 18 000 |
 | PowerPoint deck (unchanged) | 53 000 – 82 000 |
-| **Subtotal** | **555 000 – 870 000** |
-| PM (12%) | 66 600 – 104 400 |
-| **Grand total (ex. VAT)** | **~620 000 – 975 000** |
+| **Subtotal** | **575 000 – 890 000** |
+| PM (12%) | 69 000 – 106 800 |
+| **Grand total (ex. VAT)** | **~645 000 – 995 000** |
 | **Recurring SaaS** | **~105 SEK/mo (Plausible only)** |
+
+Phase 0 is included even in the Foundation bundle because it's the only way to prove the redesign shifts the lead / conversion numbers. Dropping it is possible but removes Lyster's ability to measure whether the engagement worked.
 
 ## 12. Assumptions
 
