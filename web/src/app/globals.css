@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand — Lystr v0 starting palette, extracted from current site.
+     Will evolve during brand discovery. */
+  --color-lystr-black: #1c1c1c;
+  --color-lystr-charcoal: #232324;
+  --color-lystr-slate: #3a3a40;
+  --color-lystr-muted: #696a6d;
+  --color-lystr-gray: #8b8b92;
+  --color-lystr-line: #dedfe3;
+  --color-lystr-cream: #f6f6f6;
+  --color-lystr-paper: #ffffff;
+  --color-lystr-red: #e6414f;
+  --color-lystr-red-hover: #c7303c;
+  --color-lystr-leaf: #cce4bf;
+
+  --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+
+  --container-narrow: 64rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-lystr-paper);
+  color: var(--color-lystr-black);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "kern";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Focus ring — accessible default */
+:focus-visible {
+  outline: 2px solid var(--color-lystr-red);
+  outline-offset: 3px;
+  border-radius: 2px;
+}

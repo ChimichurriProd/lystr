@@ -1,0 +1,96 @@
+/**
+ * All homepage copy, centralised as typed data.
+ * Source of truth until we add a CMS (Foundation tier — no CMS).
+ * Edits go through a PR.
+ *
+ * Typo corrections from the original lystr.se copy:
+ *   - "Avlsuta" → "Avsluta"
+ *   - "Clensun" → "Cleansun"
+ */
+
+export const hero = {
+  eyebrow: "Din livs bästa investering",
+  headline: "Byt elavtal.\nBehåll din ekonomi.\nÄg din energi.",
+  subhead:
+    "Teckna energiavtal med Lystr och få solceller och batteri utan att lägga en krona. Efter avtalstiden äger du din egen energiproduktion — i 30+ år framåt.",
+  primaryCta: { label: "Anmäl ditt intresse", href: "#kontakt" },
+  secondaryCta: {
+    label: "Boka möte med oss",
+    href: "https://www.calendly.com/mathias-soderstrom-lystr",
+  },
+};
+
+export const pillars = [
+  {
+    title: "Oberoende",
+    body:
+      "Producera din egen el. När nätet sviker — storm eller annat — har du fortfarande energi.",
+  },
+  {
+    title: "Miljövänligt",
+    body:
+      "Svensk förnybar energi från sol, vind och vatten. Mindre CO₂, mer självförsörjning.",
+  },
+  {
+    title: "Framtidssäkrat",
+    body:
+      "En anläggning med 30 års garanti och upp till 50 års livslängd. Din energi, långsiktigt.",
+  },
+];
+
+export const howItWorks = {
+  eyebrow: "Så fungerar det",
+  title: "Vi balanserar din driftskostnad.",
+  body: [
+    "Din energikostnad består av tre delar: den el du köper, överföringsavgifter till nätägaren, och skatter.",
+    "Genom att producera din egen el och lagra den i ett stort hembatteri minskar du behovet av att köpa el från nätet. Den energi du själv producerar och använder är helt avgiftsfri — varken staten eller nätägaren kan ta ut skatter eller avgifter på din egen lagrade el.",
+    "De pengar du sparar med solceller och batteri — tillsammans med intäkterna från nätets stödtjänster — räknas direkt in i din kalkyl. På så sätt täcks kostnader för ränta, service och försäkring, och du får en trygg helhetslösning där vi sköter allt åt dig.",
+    "Efter avtalstiden (maximalt 8 år) sjunker dina energikostnader kraftigt — ner till en bråkdel av vad de en gång var.",
+  ],
+};
+
+export const benefits = [
+  {
+    title: "Du betalar inte mer — men får din egen energiproduktion.",
+    body:
+      "Vi matchar din nuvarande totala energikostnad. Efter avtalstiden (8 år) har du gratis egen el från din anläggning i minst 30 år.",
+  },
+  {
+    title: "Ingen investering — men du höjer värdet på ditt hus.",
+    body:
+      "Du slipper lägga ut pengar, men värdet på ditt hus stiger med i genomsnitt över 200 000 kr.",
+  },
+  {
+    title: "Allt ingår — vi sköter hela paketet.",
+    body:
+      "Finansiering, installation, försäkring, service, energiupphandling och support. Även solcellstvätt ingår vid behov.",
+  },
+  {
+    title: "Inga elavbrott — och du stärker svenska totalförsvaret.",
+    body:
+      "När strömmen går — oavsett om det är storm eller främmande makt — har du fortfarande energi hemma.",
+  },
+  {
+    title: "Full flexibilitet — ingen bindning, inga straffavgifter.",
+    body:
+      "Avsluta avtalet när du vill genom att betala återstoden av lånet. Vi tror på frihet, inte krångliga villkor.",
+  },
+];
+
+export const faq = [
+  {
+    q: "Kan man vara helt utan elnätet?",
+    a: [
+      "Nej, inte hela året. Sommartid klarar du dig i praktiken obegränsat utan nätström. Vintertid räcker batteriet vanligtvis 1–3 dagar, därefter behövs komplettering från elnätet.",
+      "I Sverige har vi unika förutsättningar: ljusa, energirika somrar men också krävande vintrar. Därför kombineras din anläggning alltid med nätanslutning för maximal driftsäkerhet.",
+    ],
+  },
+];
+
+export const footer = {
+  phone: "010 - 55 10 400",
+  email: "info@lystr.se",
+  parent: "En del av Cleansun Sverige AB",
+  address: ["Stockholmsvägen 18", "181 50 Lidingö"],
+  copyright: `© ${new Date().getFullYear()} Lystr`,
+};
