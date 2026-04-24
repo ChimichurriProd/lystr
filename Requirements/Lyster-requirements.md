@@ -3,8 +3,15 @@
 **Customer:** Lyster (energy company — solar + battery + 8-year electricity contract; part of Cleansun Sverige AB)
 **Agency:** Sriracha
 **Document status:** Draft for customer approval
-**Version:** 0.3
+**Version:** 0.4
 **Date:** 2026-04-24
+
+**Changes since v0.3:**
+- Renamed Section 4.2 **Explainer video** → **Explainer animation (web motion graphics)** to remove ambiguity with filmed commercials
+- Explicitly coupled the explainer animation with the website walkthrough (Section 4.3) — shared style, shared assets, one creative pass
+- Added **video hosting** to Section 5.2 (Mux / Cloudflare Stream / Vercel Blob)
+- Added duration-as-cost-lever note to Section 11.2, plus a "Lean" alternative at shorter runtime
+- Reduced recommended-bundle total by ~20k to reflect the website + animation creative efficiency (same designer, same pass)
 
 **Changes since v0.2:**
 - Reframed **Section 1** — added a closing paragraph naming the underlying business goal as *more leads, higher conversion, more sales*
@@ -89,9 +96,11 @@ Lyster has a logo (used on clothing and ETC co-branding) and no other brand asse
 - Brand guidelines document ("lathund" — PDF, 10–20 pages)
 - Digital asset kit (logos in SVG/PNG, fonts specified, color tokens)
 
-### 4.2 Explainer video
+### 4.2 Explainer animation (web motion graphics)
 
-A motion-graphics video that makes the offer understandable in one sitting. It visualises the "pelar" — the three-part structure of the current energy cost (skatt + överföring + el), how solar and battery stabilise it during the 8-year contract, and how the cost drops ~65% after the contract ends and the installation is paid off.
+**This is animated web content, not a filmed commercial.** No crew, no actors, no studio, no location — the entire deliverable is produced in After Effects and lives natively on the new lystr.se site (see 4.3). The frame of reference is a good Duolingo / Mux / Vercel product explainer, not a TV ad.
+
+The animation makes the offer understandable in one sitting. It visualises the "pelar" — the three-part structure of the current energy cost (skatt + överföring + el), how solar and battery stabilise it during the 8-year contract, and how the cost drops ~65% after the contract ends and the installation is paid off.
 
 The reference the customer liked (from competitor LV) is the tone and structure of the explanation — clear, calm, trovärdig. What they did *not* like was the dishonesty of LV's offer; the visual style is a neutral reference, not a copy target.
 
@@ -101,14 +110,24 @@ The reference the customer liked (from competitor LV) is the tone and structure 
 - Design frames
 - Animation (motion graphics, ~60–90 seconds, target length to be confirmed)
 - Sound design + voiceover (Swedish voiceover assumed; see open questions)
-- Final video in web-ready formats (MP4 H.264, web-optimized; subtitles SRT)
+- Final animation in web-ready formats (MP4 H.264 + WebM; poster image; subtitle SRT)
+- Master After Effects project handed over (Section 9 — full buyout, all source files)
 - Social cutdowns **not included** in this scope — can be added
+
+**Why this matters:** because it's animation, not film, iteration is cheap. Copy changes don't require reshoots — we rework the timeline. This is useful because Lyster's on-site copy still has open inconsistencies (5–8 år vs 8 år, 65–80 % vs ~65 %) that will likely settle during the engagement.
 
 ### 4.3 Interactive website (replacing current lystr.se)
 
 **Confirmed:** the current Framer site is replaced entirely.
 
-The customer asked for "halvt interaktivt" — a page where the visitor can explore the offer and reach the same understanding the video gives them, but at their own pace. The narrative is the same as the video; the format is different.
+The customer asked for "halvt interaktivt" — a page where the visitor can explore the offer and reach the same understanding the animation gives them, but at their own pace. The narrative is the same as the animation; the format is different.
+
+**Coupling with the explainer animation (Section 4.2).** The animation and the on-site walkthrough share the same story, style, voice, and supporting illustrations — they are deliberately designed together, not in isolation. In practice this means:
+- Illustrations and motion from the After Effects master are repurposed as the scrollytelling frames in the walkthrough.
+- The animation can live as the hero on the homepage, embedded on a dedicated "Så funkar det" section, or both.
+- One design pass, one source of truth. If the story shifts, both update together.
+
+This coupling reduces combined creative cost versus doing the two workstreams independently — reflected in the pricing in Section 11.
 
 **Design-side deliverables:**
 - Strategy & sitemap (landing-focused, secondary legal/contact pages)
@@ -172,6 +191,16 @@ Before any redesign work begins, spend ~2 weeks putting basic measurement in pla
 ⭐ **Our recommendation: Growth.** The small recurring cost is worth it for team access and preview URLs alone.
 
 **Note on Framer:** we could keep the site on Framer, but we do not recommend it. Framer's component model fights against the custom interactive walkthrough described in Section 4.3, and it locks you into Framer's pricing and export limits forever. Replacing with Next.js is a one-time cost that pays back in flexibility.
+
+**Video hosting for the explainer animation.** A 60–90 s motion graphics file is 20–50 MB as a direct MP4 — fine to serve once, heavy on bandwidth at scale. Three pickable options:
+
+| Option | What you get | Setup | Recurring |
+|---|---|---|---|
+| **Vercel Blob + HLS** | Simple, same vendor as hosting, no extra accounts. Adaptive bitrate via a small transcode step. | 4–6 h → 4 000 – 6 000 SEK | ~50 SEK/mo at current traffic |
+| **Mux** ⭐ | Best-in-class video delivery, adaptive streaming, Data dashboard, API-first. Widely used by Vercel-hosted sites. | 3–5 h → 3 000 – 5 000 SEK | ~110–330 SEK/mo depending on plays |
+| **Cloudflare Stream** | $5 / 1000 min delivered, fixed price. Lower ceiling than Mux but predictable. | 3–5 h → 3 000 – 5 000 SEK | ~55 SEK/mo at low volume |
+
+⭐ **Recommendation: Mux.** Tiny recurring cost, clean API, and the analytics dashboard answers the question "is anyone actually watching this?" — directly useful for Phase 0 / ongoing measurement.
 
 ### 5.3 Content editing (CMS)
 
@@ -296,7 +325,7 @@ We act as Lyster's external digital team for a fixed monthly fee. What's include
 
 **Indicative duration once started:**
 - Brand identity: 3–5 weeks
-- Explainer video: 6–8 weeks from approved script to final
+- Explainer animation: 6–8 weeks from approved script to final
 - Website + platform setup: 6–10 weeks depending on stack tier
 - PowerPoint deck: 2–3 weeks after brand is locked
 
@@ -318,7 +347,7 @@ These items were resolved between v0.1 and v0.2 and are now locked:
 
 ## 10. Remaining open questions
 
-### 10.1 Explainer video specifics
+### 10.1 Explainer animation specifics
 - Target length — 60s, 90s, 120s? (We recommend 75–90s.)
 - Voiceover — professional Swedish VO talent, or internal voice (Alex)? Budget for VO is separate.
 - Music — licensed library track, or custom composition?
@@ -369,7 +398,9 @@ Rates are indicative at **1 000 SEK/h** blended (indie-boutique Stockholm level)
 | **Total hours**                | **95–140 h** |
 | **Price (SEK, ex. VAT)**       | **95 000 – 140 000** |
 
-### 11.2 Explainer video (motion graphics, 60–90s)
+### 11.2 Explainer animation (web motion graphics, 60–90s)
+
+Motion graphics only — no filming, no crew, no studio. Produced in After Effects, delivered as a web asset that lives inside the new lystr.se site. Not comparable to live-action commercial pricing.
 
 | Work item                   | Hours       |
 |-----------------------------|-------------|
@@ -385,6 +416,10 @@ Rates are indicative at **1 000 SEK/h** blended (indie-boutique Stockholm level)
 | + VO talent (external)      | ~5 000 – 15 000 |
 | + Music license             | ~2 000 – 8 000  |
 | **All-in price**            | **~195 000 – 310 000** |
+
+**Duration is the main cost lever.** A 45-second version lands at roughly **130 000 – 200 000 SEK** all-in (animation scales close to linearly with runtime). A 120-second version climbs to roughly **260 000 – 400 000 SEK**. We recommend **75–90 seconds** as the sweet spot — long enough to land all three "pelar" plus the post-contract payoff, short enough that attention holds.
+
+**Creative-coupling discount (Section 4.3).** When the animation and the on-site walkthrough are designed by the same team in the same pass (our default), we save ~20 000 SEK on duplicated design work. This discount is baked into the recommended bundle in 11.7.
 
 ### 11.3 Interactive website — design & build
 
@@ -409,13 +444,14 @@ From Section 5.9. Pickable à la carte if Lyster wants a different tier in any c
 |---|---|
 | Phase 0 — Baseline & attribution | 20 000 |
 | Vercel Pro setup | 3 000 |
+| Video hosting — Mux integration (for the explainer animation) | 3 000 – 5 000 |
 | Sanity CMS | 20 000 – 35 000 |
 | Analytics (Plausible + PostHog) | 10 000 – 15 000 |
 | Lead capture + HubSpot Free | 15 000 – 25 000 |
 | Calendly integration | 4 000 – 8 000 |
 | Mailchimp starter + welcome email | 10 000 – 20 000 |
 | SEO technical foundation | included in 11.3 |
-| **Bundle total** | **82 000 – 126 000** |
+| **Bundle total** | **85 000 – 131 000** |
 
 ### 11.5 PowerPoint sales deck
 
@@ -433,19 +469,20 @@ Applied as a 12% surcharge on the sum of deliverables above (industry standard 1
 
 ### 11.7 Total — recommended bundle
 
-All ⭐ choices: brand + explainer video + website + Growth platform bundle + deck.
+All ⭐ choices: brand + explainer animation + website + Growth platform bundle + deck.
 
 | Package                       | Low (SEK)    | High (SEK)   |
 |-------------------------------|--------------|--------------|
 | Brand                         | 95 000       | 140 000      |
-| Explainer video (all-in)      | 195 000      | 310 000      |
+| Explainer animation (all-in, 75–90s) | 195 000 | 310 000 |
 | Website (design & build)      | 200 000      | 320 000      |
-| Platform & ops — Growth bundle *(incl. Phase 0)* | 82 000 | 126 000 |
+| Platform & ops — Growth bundle *(incl. Phase 0 + video hosting)* | 85 000 | 131 000 |
 | PowerPoint deck               | 53 000       | 82 000       |
-| **Subtotal**                  | **625 000**  | **978 000**  |
-| Project management (12%)      | 75 000       | 117 360      |
-| **Grand total (ex. VAT)**     | **~700 000** | **~1 095 000** |
-| **Recurring SaaS (paid by Lyster direct)** | **~435 SEK/mo + per-seat** | |
+| Creative-coupling discount (same team designs animation + walkthrough) | -20 000 | -20 000 |
+| **Subtotal**                  | **608 000**  | **963 000**  |
+| Project management (12%)      | 73 000       | 115 560      |
+| **Grand total (ex. VAT)**     | **~680 000** | **~1 080 000** |
+| **Recurring SaaS (paid by Lyster direct)** | **~545 SEK/mo + per-seat** | |
 
 ### 11.8 Lean alternative — "Foundation" bundle
 
@@ -454,17 +491,19 @@ If budget is tight:
 | Package | Price (SEK) |
 |---|---|
 | Brand (unchanged) | 95 000 – 140 000 |
-| Explainer video (unchanged) | 195 000 – 310 000 |
+| Explainer animation — 45s lean variant | 130 000 – 200 000 |
 | Website (unchanged) | 200 000 – 320 000 |
 | Phase 0 — Baseline & attribution | 20 000 |
 | Platform & ops — Foundation (form → email, Plausible only, no CMS) | 12 000 – 18 000 |
+| Video hosting — Vercel Blob + HLS | 4 000 – 6 000 |
 | PowerPoint deck (unchanged) | 53 000 – 82 000 |
-| **Subtotal** | **575 000 – 890 000** |
-| PM (12%) | 69 000 – 106 800 |
-| **Grand total (ex. VAT)** | **~645 000 – 995 000** |
-| **Recurring SaaS** | **~105 SEK/mo (Plausible only)** |
+| Creative-coupling discount | -20 000 |
+| **Subtotal** | **494 000 – 766 000** |
+| PM (12%) | 59 000 – 92 000 |
+| **Grand total (ex. VAT)** | **~555 000 – 860 000** |
+| **Recurring SaaS** | **~155 SEK/mo (Plausible + Vercel Blob)** |
 
-Phase 0 is included even in the Foundation bundle because it's the only way to prove the redesign shifts the lead / conversion numbers. Dropping it is possible but removes Lyster's ability to measure whether the engagement worked.
+The Foundation bundle now reflects two levers for cutting cost: the 45-second explainer (vs 75–90s) and the lighter ops stack. Phase 0 remains included — it's the only way to prove the redesign shifts the lead / conversion numbers, and dropping it contradicts the business goal stated in Section 1.
 
 ## 12. Assumptions
 
