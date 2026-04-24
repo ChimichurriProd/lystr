@@ -13,11 +13,96 @@ export const hero = {
   headline: "Byt elavtal.\nBehåll din ekonomi.\nÄg din energi.",
   subhead:
     "Teckna energiavtal med Lystr och få solceller och batteri utan att lägga en krona. Efter avtalstiden äger du din egen energiproduktion — i 30+ år framåt.",
-  primaryCta: { label: "Anmäl ditt intresse", href: "#kontakt" },
+  primaryCta: { label: "Räkna ut din besparing", href: "#kalkylator" },
   secondaryCta: {
-    label: "Boka möte med oss",
+    label: "Boka möte direkt",
     href: "https://www.calendly.com/mathias-soderstrom-lystr",
   },
+};
+
+export const customerJourney = {
+  eyebrow: "Så blir du kund",
+  title: "Från intresse till installation på 6 veckor.",
+  steps: [
+    {
+      number: "01",
+      title: "Räkna ut din besparing",
+      body:
+        "Använd vår kalkylator. På två minuter får du en uppskattning av vad ett avtal med Lystr skulle kosta dig — och vad du sparar över tid.",
+    },
+    {
+      number: "02",
+      title: "Prata med en rådgivare",
+      body:
+        "Vi går igenom din situation tillsammans. Din el-användning, ditt tak, dina mål. Ingen säljpitch — bara en rak konversation.",
+    },
+    {
+      number: "03",
+      title: "Installation klar på 6 veckor",
+      body:
+        "Vi projekterar, installerar, försäkrar och servar hela anläggningen. Du börjar producera din egen el. 30 års garanti.",
+    },
+  ],
+};
+
+export const calculator = {
+  eyebrow: "Din uppskattning",
+  title: "Vad skulle Lystr kosta dig?",
+  subtitle:
+    "Tre frågor, två minuter. Inga uppgifter lagras innan du väljer att boka möte.",
+  steps: {
+    postnummer: {
+      label: "Var bor du?",
+      help: "Ange postnummer. Vi använder det för att uppskatta soltillgång och lokala nätavgifter.",
+    },
+    bill: {
+      label: "Vad betalar du för el idag?",
+      help: "Genomsnittlig månadskostnad inklusive skatt och överföring.",
+      presets: [1500, 2500, 3500, 5000],
+    },
+    housing: {
+      label: "Vilken boendeform?",
+      options: [
+        { value: "villa", label: "Villa" },
+        { value: "radhus", label: "Radhus" },
+        { value: "fritidshus", label: "Fritidshus" },
+        { value: "lagenhet", label: "Lägenhet" },
+      ],
+    },
+  },
+  ineligible: {
+    title: "Tyvärr — Lystr passar inte lägenhetsboende",
+    body: "Vårt avtal förutsätter eget tak för solceller. Bor du i bostadsrätt eller hyresrätt kan du inte teckna avtal med oss idag.",
+  },
+  result: {
+    heading: "Din uppskattning är klar",
+    contractLabel: "Under avtalstiden (8 år)",
+    postContractLabel: "Efter avtalstiden",
+    currentLabel: "Din nuvarande kostnad",
+    lifetimeSavings: "Total besparing över 30 år",
+    houseValue: "Värdehöjning på ditt hus",
+    ctaPrimary: "Få en detaljerad offert",
+    ctaSecondary: "Boka möte direkt",
+    fineprint:
+      "Uppskattning baserad på genomsnittliga värden. Din faktiska offert beräknas utifrån tak, förbrukningsprofil och aktuella priser.",
+  },
+};
+
+export const leadForm = {
+  title: "Få en detaljerad offert på mejl",
+  subtitle: "Vi återkommer inom 1–2 arbetsdagar med en kalkyl baserad på dina uppgifter.",
+  fields: {
+    name: "För- och efternamn",
+    email: "E-post",
+    phone: "Telefon (valfritt)",
+  },
+  submit: "Skicka min uppgifter",
+  success: {
+    title: "Tack — vi återkommer snart.",
+    body: "Vi mejlar dig en offert inom 1–2 arbetsdagar. Vill du prata direkt istället?",
+  },
+  consent:
+    "Genom att skicka godkänner du att Lystr kontaktar dig angående ditt intresse.",
 };
 
 export const pillars = [
