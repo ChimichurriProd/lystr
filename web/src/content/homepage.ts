@@ -12,7 +12,7 @@ export const hero = {
   eyebrow: "Din livs bästa investering",
   headline: "Byt elavtal.\nBehåll din ekonomi.\nÄg din energi.",
   subhead:
-    "Teckna energiavtal med Lystr och få solceller och batteri utan att lägga en krona. Efter avtalstiden äger du din egen energiproduktion — i 30+ år framåt.",
+    "Teckna energiavtal med Lystr och få solceller och batteri utan att lägga en krona. Efter avtalstiden äger du din egen energiproduktion i 30+ år framåt.",
   primaryCta: { label: "Räkna ut din besparing", href: "#kalkylator" },
   secondaryCta: {
     label: "Boka möte direkt",
@@ -28,13 +28,13 @@ export const customerJourney = {
       number: "01",
       title: "Räkna ut din besparing",
       body:
-        "Använd vår kalkylator. På två minuter får du en uppskattning av vad ett avtal med Lystr skulle kosta dig — och vad du sparar över tid.",
+        "Använd vår kalkylator. På två minuter får du en uppskattning av vad ett avtal med Lystr skulle kosta dig, och vad du sparar över tid.",
     },
     {
       number: "02",
       title: "Prata med en rådgivare",
       body:
-        "Vi går igenom din situation tillsammans. Din el-användning, ditt tak, dina mål. Ingen säljpitch — bara en rak konversation.",
+        "Vi går igenom din situation tillsammans. Din el-användning, ditt tak, dina mål. Ingen säljpitch, bara en rak konversation.",
     },
     {
       number: "03",
@@ -71,7 +71,7 @@ export const calculator = {
     },
   },
   ineligible: {
-    title: "Tyvärr — Lystr passar inte lägenhetsboende",
+    title: "Tyvärr. Lystr passar inte lägenhetsboende.",
     body: "Vårt avtal förutsätter eget tak för solceller. Bor du i bostadsrätt eller hyresrätt kan du inte teckna avtal med oss idag.",
   },
   result: {
@@ -98,7 +98,7 @@ export const leadForm = {
   },
   submit: "Skicka min uppgifter",
   success: {
-    title: "Tack — vi återkommer snart.",
+    title: "Tack. Vi återkommer snart.",
     body: "Vi mejlar dig en offert inom 1–2 arbetsdagar. Vill du prata direkt istället?",
   },
   consent:
@@ -109,7 +109,7 @@ export const pillars = [
   {
     title: "Oberoende",
     body:
-      "Producera din egen el. När nätet sviker — storm eller annat — har du fortfarande energi.",
+      "Producera din egen el. När nätet sviker, vid storm eller annat, har du fortfarande energi.",
   },
   {
     title: "Miljövänligt",
@@ -127,7 +127,7 @@ export const howItWorks = {
   eyebrow: "Så fungerar det",
   title: "Samma månadskostnad. Helt annat värde.",
   subtitle:
-    "Med Lystr betalar du ungefär samma månadsbelopp som idag — men pengarna bygger din egen energianläggning istället för att försvinna till kraftbolaget. Ändra beloppet nedan och se hur det ser ut för dig.",
+    "Med Lystr betalar du ungefär samma månadsbelopp som idag. Men pengarna bygger din egen energianläggning istället för att försvinna till kraftbolaget. Ändra beloppet nedan och se hur det ser ut för dig.",
   presets: [1500, 2500, 3500, 5000],
   phases: {
     today: {
@@ -141,7 +141,7 @@ export const howItWorks = {
       ],
     },
     contract: {
-      label: "Med Lystr — år 1 till 8",
+      label: "Med Lystr, år 1 till 8",
       caption: "55% av din månadskostnad går till att betala av din egen anläggning. Efter 8 år äger du den.",
       segments: [
         { key: "amortering", label: "Amortering på din anläggning", share: 0.55 },
@@ -150,7 +150,7 @@ export const howItWorks = {
       ],
     },
     post: {
-      label: "Efter avtalstiden — år 9 och framåt",
+      label: "Efter avtalstiden, år 9 och framåt",
       caption: "75% lägre elkostnad för resten av anläggningens livstid (30–50 år). Helt egen produktion, plus ett litet tillskott från nätet vinterstid.",
       // Only 25% of container width; single segment
       relativeWidth: 0.25,
@@ -160,35 +160,35 @@ export const howItWorks = {
     },
   },
   insight: {
-    headline: "Samma månadskostnad — helt annan riktning.",
+    headline: "Samma månadskostnad. Helt annan riktning.",
     body:
-      "Lystr omfördelar din befintliga elkostnad. Istället för att alla pengar försvinner till externa aktörer går majoriteten av dem till att bygga din egen anläggning. Efter 8 år äger du hela systemet — och din elkostnad rasar.",
+      "Lystr omfördelar din befintliga elkostnad. Istället för att alla pengar försvinner till externa aktörer går majoriteten av dem till att bygga din egen anläggning. Efter 8 år äger du hela systemet. Och då rasar din elkostnad.",
   },
 };
 
 export const benefits = [
   {
-    title: "Du betalar inte mer — men får din egen energiproduktion.",
+    title: "Du betalar inte mer. Men du får din egen energiproduktion.",
     body:
       "Vi matchar din nuvarande totala energikostnad. Efter avtalstiden (8 år) har du gratis egen el från din anläggning i minst 30 år.",
   },
   {
-    title: "Ingen investering — men du höjer värdet på ditt hus.",
+    title: "Ingen investering. Men du höjer värdet på ditt hus.",
     body:
       "Du slipper lägga ut pengar, men värdet på ditt hus stiger med i genomsnitt över 200 000 kr.",
   },
   {
-    title: "Allt ingår — vi sköter hela paketet.",
+    title: "Allt ingår. Vi sköter hela paketet.",
     body:
       "Finansiering, installation, försäkring, service, energiupphandling och support. Även solcellstvätt ingår vid behov.",
   },
   {
-    title: "Inga elavbrott — och du stärker svenska totalförsvaret.",
+    title: "Inga elavbrott, och du stärker svenska totalförsvaret.",
     body:
-      "När strömmen går — oavsett om det är storm eller främmande makt — har du fortfarande energi hemma.",
+      "När strömmen går, oavsett om det är storm eller främmande makt, har du fortfarande energi hemma.",
   },
   {
-    title: "Full flexibilitet — ingen bindning, inga straffavgifter.",
+    title: "Full flexibilitet. Ingen bindning, inga straffavgifter.",
     body:
       "Avsluta avtalet när du vill genom att betala återstoden av lånet. Vi tror på frihet, inte krångliga villkor.",
   },

@@ -9,7 +9,7 @@ const schibsted = Schibsted_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Lystr — Byt elavtal, få egen energiproduktion",
+  title: "Lystr · Byt elavtal, få egen energiproduktion",
   description:
     "Teckna energiavtal med Lystr och få solceller och batteri utan att lägga en krona. Din elräkning blir en avbetalning och efter avtalstiden äger du din egen energiproduktion.",
   metadataBase: new URL("https://lystr.se"),

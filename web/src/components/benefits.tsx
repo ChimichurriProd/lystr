@@ -8,7 +8,7 @@ export function Benefits() {
           Varför välja Lystr
         </p>
         <h2 className="mt-2 text-3xl font-semibold tracking-tight text-lystr-black md:text-4xl">
-          Du betalar inte mer — men får din egen energiproduktion.
+          Du betalar inte mer. Men du får din egen energiproduktion.
         </h2>
         <ul className="mt-10 grid gap-4 md:grid-cols-2">
           {benefits.map((b, i) => (

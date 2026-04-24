@@ -36,7 +36,7 @@ export function ExplainerSection() {
             />
           </div>
           <p className="mt-3 text-xs text-lystr-muted">
-            Tillfällig placeholder — Lystrs egen animerade förklaring ersätter
+            Tillfällig placeholder. Lystrs egen animerade förklaring ersätter
             denna när den är klar.
           </p>
         </div>

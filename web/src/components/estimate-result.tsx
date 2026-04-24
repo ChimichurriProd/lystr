@@ -63,8 +63,8 @@ export function EstimateResult({
             {formatKr(totalBenefit)}
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-white/75 md:text-xl">
-            Total uppskattad vinst över 30 år — sänkta elkostnader efter avtalstid
-            och värdehöjning på ditt hus.
+            Total uppskattad vinst över 30 år. Sänkta elkostnader efter avtalstid
+            plus värdehöjning på ditt hus.
           </p>
           <p className="mt-4 text-sm text-white/50">
             Baserat på {formatKr(monthlyBill)}/mån i dagens elkostnad,{" "}
@@ -94,7 +94,7 @@ export function EstimateResult({
                   amountLabel={`${formatKr(monthlyBill)} / mån`}
                   widthPct={100}
                   tone="black"
-                  caption="Matchar din nuvarande kostnad — men nu producerar du din egen el."
+                  caption="Matchar din nuvarande kostnad, men nu producerar du din egen el."
                 />
                 <BarRow
                   label={calculator.result.postContractLabel}

@@ -5,7 +5,7 @@ import { calculator } from "@/content/homepage";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Din uppskattning — Lystr",
+  title: "Din uppskattning · Lystr",
   robots: { index: false, follow: false },
 };
 
