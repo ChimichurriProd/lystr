@@ -107,19 +107,19 @@ export const leadForm = {
 
 export const pillars = [
   {
+    title: "Ekonomi",
+    body:
+      "Samma månadskostnad som idag, men pengarna bygger din egen anläggning. Efter 8 år rasar din elräkning.",
+  },
+  {
     title: "Oberoende",
     body:
-      "Producera din egen el. När nätet sviker, vid storm eller annat, har du fortfarande energi.",
+      "Fri från elbolagen. När priserna skjuter i höjden och vinstvarningar trillar in — det händer inte dig.",
   },
   {
-    title: "Miljövänligt",
+    title: "Trygghet",
     body:
-      "Svensk förnybar energi från sol, vind och vatten. Mindre CO₂, mer självförsörjning.",
-  },
-  {
-    title: "Framtidssäkrat",
-    body:
-      "En anläggning med 30 års garanti och upp till 50 års livslängd. Din energi, långsiktigt.",
+      "30 års garanti på anläggningen. Egen el när nätet sviker. Svensk sol, vind och vatten — inga bindningar till utländska bolag.",
   },
 ];
 
@@ -133,6 +133,7 @@ export const howItWorks = {
     today: {
       label: "Din kostnad idag",
       caption: "Hela beloppet går till staten, nätägaren och kraftbolaget. Ingen del av det blir din egendom.",
+      destination: "Varje krona går rakt in i elbolagens resultaträkning.",
       // Swedish electricity cost breakdown (approximate, illustrative)
       segments: [
         { key: "skatt", label: "Skatt & moms", share: 0.30 },
@@ -143,6 +144,7 @@ export const howItWorks = {
     contract: {
       label: "Med Lystr, år 1 till 8",
       caption: "55% av din månadskostnad går till att betala av din egen anläggning. Efter 8 år äger du den.",
+      destination: "Majoriteten går till att bygga din egen anläggning.",
       segments: [
         { key: "amortering", label: "Amortering på din anläggning", share: 0.55 },
         { key: "service", label: "Service & försäkring", share: 0.15 },
@@ -152,6 +154,7 @@ export const howItWorks = {
     post: {
       label: "Efter avtalstiden, år 9 och framåt",
       caption: "75% lägre elkostnad för resten av anläggningens livstid (30–50 år). Helt egen produktion, plus ett litet tillskott från nätet vinterstid.",
+      destination: "Du betalar dig själv. Elbolagen är i stort sett ute ur ekvationen.",
       // Only 25% of container width; single segment
       relativeWidth: 0.25,
       segments: [
@@ -160,9 +163,9 @@ export const howItWorks = {
     },
   },
   insight: {
-    headline: "Samma månadskostnad. Helt annan riktning.",
+    headline: "Samma månadskostnad. Helt annan mottagare.",
     body:
-      "Lystr omfördelar din befintliga elkostnad. Istället för att alla pengar försvinner till externa aktörer går majoriteten av dem till att bygga din egen anläggning. Efter 8 år äger du hela systemet. Och då rasar din elkostnad.",
+      "Idag betalar du elbolaget. Imorgon betalar du dig själv. Det är skillnaden i en mening — och efter 8 år äger du hela anläggningen.",
   },
 };
 
@@ -186,6 +189,11 @@ export const benefits = [
     title: "Inga elavbrott, och du stärker svenska totalförsvaret.",
     body:
       "När strömmen går, oavsett om det är storm eller främmande makt, har du fortfarande energi hemma.",
+  },
+  {
+    title: "Din egen el. Inte elbolagens.",
+    body:
+      "Du är inte längre beroende av eljättarna. När elpriset skjuter i höjden under vinterhalvåret märker du det knappt — du producerar din egen.",
   },
   {
     title: "Full flexibilitet. Ingen bindning, inga straffavgifter.",

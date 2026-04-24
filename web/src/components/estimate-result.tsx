@@ -62,7 +62,10 @@ export function EstimateResult({
           <h1 className="mt-3 text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
             {formatKr(totalBenefit)}
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-white/75 md:text-xl">
+          <p className="mt-3 text-sm italic text-white/60">
+            Det räcker till en ny bil. Eller tio semestrar. Eller amortering på huslånet.
+          </p>
+          <p className="mt-5 max-w-2xl text-lg text-white/75 md:text-xl">
             Total uppskattad vinst över 30 år. Sänkta elkostnader efter avtalstid
             plus värdehöjning på ditt hus.
           </p>

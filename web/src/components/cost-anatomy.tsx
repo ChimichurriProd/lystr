@@ -115,7 +115,7 @@ export function CostAnatomy() {
             containerFill={1}
             bill={bill}
             caption={howItWorks.phases.today.caption}
-            destination="Går till: staten, nätägaren, kraftbolaget"
+            destination={howItWorks.phases.today.destination}
           />
           <PhaseBar
             label={howItWorks.phases.contract.label}
@@ -126,7 +126,7 @@ export function CostAnatomy() {
             containerFill={1}
             bill={bill}
             caption={howItWorks.phases.contract.caption}
-            destination="Går till: DIN anläggning, service, elnätet"
+            destination={howItWorks.phases.contract.destination}
             emphasise
           />
           <PhaseBar
@@ -138,7 +138,7 @@ export function CostAnatomy() {
             containerFill={postFill}
             bill={bill}
             caption={howItWorks.phases.post.caption}
-            destination="Endast en liten del från elnätet återstår"
+            destination={howItWorks.phases.post.destination}
           />
         </div>
 
