@@ -279,7 +279,8 @@ function buildQuestionsNav(allQuestions) {
       nav.appendChild(a);
     });
   });
-  document.getElementById('q-count').textContent = allQuestions.reduce((s, x) => s + x.questions.length, 0);
+  const qCount = document.getElementById('q-count');
+  if (qCount) qCount.textContent = allQuestions.reduce((s, x) => s + x.questions.length, 0);
 }
 
 function showDoc(id, opts = {}) {
