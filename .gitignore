@@ -9,3 +9,6 @@ Meetings/
 node_modules/
 dist/
 .vercel
+
+# Pricelist drafts — kept local only, imported into external pricelist system
+Pricelist/
