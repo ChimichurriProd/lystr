@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sriracha — Requirements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #161922;
+    --panel-2: #1c2030;
+    --border: #262b3b;
+    --text: #e6e8ee;
+    --muted: #9aa1b2;
+    --accent: #ff6b4a;
+    --accent-2: #ffa463;
+    --question: #2a1f0d;
+    --question-border: #9a7a2e;
+    --question-text: #ffd88a;
+    --link: #7fb3ff;
+    --success: #5cd68c;
+    --radius: 8px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, -apple-system, sans-serif; font-size: 15px; line-height: 1.6; }
+  code, pre, tt { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.9em; }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); } }
+
+  .sidebar { background: var(--panel); border-right: 1px solid var(--border); padding: 24px 20px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .brand { font-weight: 700; font-size: 18px; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .brand-sub { color: var(--muted); font-size: 12px; margin-bottom: 24px; }
+  .nav-group { margin-bottom: 20px; }
+  .nav-group-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 8px; }
+  .nav a { display: block; padding: 6px 10px; border-radius: 6px; color: var(--text); font-size: 13px; margin-bottom: 2px; }
+  .nav a:hover { background: var(--panel-2); text-decoration: none; }
+  .nav a.active { background: var(--accent); color: #fff; }
+  .nav-doc { font-weight: 600; margin-bottom: 4px; }
+
+  .main { padding: 40px 56px 120px; max-width: 920px; }
+  @media (max-width: 900px) { .main { padding: 24px 20px 80px; } }
+
+  .doc { display: none; }
+  .doc.active { display: block; }
+  .doc-header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 28px; }
+  .doc-tag { display: inline-block; background: var(--panel-2); color: var(--accent-2); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 8px; border-radius: 4px; margin-bottom: 12px; }
+
+  /* Markdown content styling */
+  .md h1 { font-size: 28px; font-weight: 700; margin: 0 0 8px; letter-spacing: -0.02em; }
+  .md h2 { font-size: 22px; font-weight: 600; margin: 40px 0 12px; padding-top: 24px; border-top: 1px solid var(--border); letter-spacing: -0.01em; }
+  .md h2:first-of-type { border-top: none; padding-top: 0; }
+  .md h3 { font-size: 17px; font-weight: 600; margin: 28px 0 8px; color: var(--accent-2); }
+  .md h4 { font-size: 15px; font-weight: 600; margin: 20px 0 6px; color: var(--text); }
+  .md p { margin: 0 0 12px; }
+  .md ul, .md ol { margin: 0 0 14px; padding-left: 24px; }
+  .md li { margin: 4px 0; }
+  .md li > p { margin: 4px 0; }
+  .md strong { color: #fff; font-weight: 600; }
+  .md em { color: var(--accent-2); font-style: normal; font-weight: 500; }
+  .md hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  .md blockquote { border-left: 3px solid var(--accent); padding-left: 14px; margin: 14px 0; color: var(--muted); }
+  .md code { background: var(--panel-2); padding: 1px 6px; border-radius: 4px; color: var(--accent-2); }
+  .md table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  .md th, .md td { padding: 8px 10px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+  .md th { background: var(--panel-2); font-weight: 600; }
+  .md tr:nth-child(even) td { background: rgba(255,255,255,0.01); }
+
+  /* Open question highlighting */
+  .question-block { background: var(--question); border: 1px solid var(--question-border); border-left: 4px solid var(--question-border); border-radius: var(--radius); padding: 16px 18px; margin: 14px 0; }
+  .question-block h3, .question-block h4 { color: var(--question-text); margin-top: 0; }
+  .question-block::before { content: "OPEN QUESTION"; display: inline-block; background: var(--question-border); color: #1a1300; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; padding: 2px 8px; border-radius: 3px; margin-bottom: 10px; }
+  .answer-field { margin-top: 10px; }
+  .answer-field label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 4px; }
+  .answer-field textarea { width: 100%; min-height: 60px; background: var(--panel); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; font-family: inherit; font-size: 13px; resize: vertical; }
+  .answer-field textarea:focus { outline: none; border-color: var(--accent); }
+
+  .summary { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 28px; }
+  .summary h2 { margin: 0 0 12px; font-size: 18px; border: none; padding: 0; }
+  .summary p { margin: 0 0 8px; color: var(--muted); }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 16px 0 4px; }
+  .kpi { background: var(--panel-2); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; }
+  .kpi-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .kpi-value { font-size: 18px; font-weight: 600; margin-top: 2px; }
+
+  .actions { position: fixed; bottom: 20px; right: 24px; display: flex; gap: 8px; z-index: 10; }
+  button.btn { background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 10px 14px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.4); }
+  button.btn:hover { background: var(--accent-2); }
+  button.btn.secondary { background: var(--panel-2); color: var(--text); border: 1px solid var(--border); }
+
+  .saved-indicator { position: fixed; bottom: 20px; left: 24px; background: var(--panel-2); border: 1px solid var(--border); color: var(--success); font-size: 12px; padding: 6px 12px; border-radius: 6px; opacity: 0; transition: opacity 0.2s; }
+  .saved-indicator.visible { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">Sriracha</div>
+    <div class="brand-sub">Requirements — April 2026</div>
+
+    <div class="nav-group">
+      <div class="nav-group-title">Documents</div>
+      <div class="nav">
+        <a href="#overview" class="nav-doc" data-doc="overview">Overview</a>
+        <a href="#lyster" class="nav-doc" data-doc="lyster">Lyster</a>
+        <a href="#lumiverse" class="nav-doc" data-doc="lumiverse">Lumiverse</a>
+      </div>
+    </div>
+
+    <div class="nav-group" id="toc-container">
+      <div class="nav-group-title">On this page</div>
+      <div class="nav" id="toc"></div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-title">Open questions</div>
+      <div class="nav" id="questions-nav"></div>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <section id="doc-overview" class="doc">
+      <div class="doc-header">
+        <span class="doc-tag">Overview</span>
+        <h1 style="margin:0; font-size: 28px; letter-spacing: -0.02em;">Two projects, one conversation</h1>
+      </div>
+      <div class="summary">
+        <p>After reviewing the meeting transcripts, we've separated the discussion into two distinct engagements. Each has its own requirements document, scope, and estimate. Use the sidebar to navigate between them. Open questions are highlighted in yellow — please fill in answers directly in the browser; they are saved locally.</p>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Lyster total (est.)</div><div class="kpi-value">585k – 910k SEK</div></div>
+        <div class="kpi"><div class="kpi-label">Lumiverse total (est.)</div><div class="kpi-value">293k – 477k SEK</div></div>
+        <div class="kpi"><div class="kpi-label">Open questions</div><div class="kpi-value" id="q-count">—</div></div>
+        <div class="kpi"><div class="kpi-label">Rate (indicative)</div><div class="kpi-value">1 000 SEK/h</div></div>
+      </div>
+
+      <h2 style="border: none; padding-top: 8px;">Lyster — energy company</h2>
+      <p>Brand + explainer video + interactive website + sales deck. Constrained by stakeholder Johan (controls brand direction + ~800k members reach). Three collaboration options proposed.</p>
+      <p><a href="#lyster">Open Lyster document →</a></p>
+
+      <h2>Lumiverse — content &amp; distribution</h2>
+      <p>Brand + PowerPoint master template (light + dark) + mockup sponsor pitch deck. Primary working tool for Alex; used daily, not just in pitches. Live-action / 3D renders deferred until a sponsor confirms.</p>
+      <p><a href="#lumiverse">Open Lumiverse document →</a></p>
+    </section>
+
+    <section id="doc-lyster" class="doc">
+      <div class="doc-header">
+        <span class="doc-tag">Lyster</span>
+      </div>
+      <div class="md" id="content-lyster">Loading…</div>
+    </section>
+
+    <section id="doc-lumiverse" class="doc">
+      <div class="doc-header">
+        <span class="doc-tag">Lumiverse</span>
+      </div>
+      <div class="md" id="content-lumiverse">Loading…</div>
+    </section>
+
+  </main>
+</div>
+
+<div class="actions">
+  <button class="btn secondary" onclick="exportAnswers()">Export answers</button>
+  <button class="btn" onclick="clearAnswers()">Clear</button>
+</div>
+<div class="saved-indicator" id="saved">Saved</div>
+
+<script>
+const DOCS = [
+  { id: 'lyster', file: 'Requirements/Lyster-requirements.md' },
+  { id: 'lumiverse', file: 'Requirements/Lumiverse-requirements.md' }
+];
+
+// Mark any H3 that begins with section "6.x", "7.x", "8.x" under a "Open questions" H2 as a question block.
+function wrapQuestions(container) {
+  const nodes = Array.from(container.children);
+  let inQuestionsSection = false;
+  let currentBlock = null;
+  const toWrap = [];
+
+  nodes.forEach(node => {
+    if (node.tagName === 'H2') {
+      inQuestionsSection = /open questions/i.test(node.textContent);
+      currentBlock = null;
+    }
+    if (inQuestionsSection && node.tagName === 'H3') {
+      currentBlock = { heading: node, contents: [] };
+      toWrap.push(currentBlock);
+    } else if (inQuestionsSection && currentBlock && node.tagName !== 'H2') {
+      currentBlock.contents.push(node);
+    }
+  });
+
+  toWrap.forEach((block, idx) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'question-block';
+    wrapper.id = 'q-' + container.dataset.docId + '-' + idx;
+    block.heading.parentNode.insertBefore(wrapper, block.heading);
+    wrapper.appendChild(block.heading);
+    block.contents.forEach(c => wrapper.appendChild(c));
+
+    // Append answer field
+    const answerDiv = document.createElement('div');
+    answerDiv.className = 'answer-field';
+    const qKey = wrapper.id;
+    answerDiv.innerHTML = `
+      <label for="${qKey}-answer">Your answer</label>
+      <textarea id="${qKey}-answer" data-qkey="${qKey}" placeholder="Type answer here — saved automatically in this browser"></textarea>
+    `;
+    wrapper.appendChild(answerDiv);
+  });
+
+  return toWrap;
+}
+
+async function loadDoc(doc) {
+  const res = await fetch(doc.file);
+  const md = await res.text();
+  const html = marked.parse(md);
+  const container = document.getElementById('content-' + doc.id);
+  container.innerHTML = html;
+  container.dataset.docId = doc.id;
+  const questions = wrapQuestions(container);
+  return { doc, questions };
+}
+
+function buildToc(container) {
+  const toc = document.getElementById('toc');
+  toc.innerHTML = '';
+  const headings = container.querySelectorAll('h2');
+  headings.forEach((h, idx) => {
+    const slug = 'h-' + container.dataset.docId + '-' + idx;
+    h.id = slug;
+    const a = document.createElement('a');
+    a.href = '#' + slug;
+    a.textContent = h.textContent.replace(/^\d+\.\s*/, '');
+    toc.appendChild(a);
+  });
+}
+
+function buildQuestionsNav(allQuestions) {
+  const nav = document.getElementById('questions-nav');
+  nav.innerHTML = '';
+  allQuestions.forEach(({ doc, questions }) => {
+    if (!questions.length) return;
+    const label = document.createElement('div');
+    label.style.cssText = 'font-size:11px;color:var(--muted);margin:8px 0 4px;text-transform:uppercase;letter-spacing:0.08em;';
+    label.textContent = doc.id;
+    nav.appendChild(label);
+    questions.forEach((q, idx) => {
+      const a = document.createElement('a');
+      a.href = '#q-' + doc.id + '-' + idx;
+      a.textContent = q.heading.textContent.replace(/^\d+\.\d+\s*/, '');
+      a.onclick = (e) => { e.preventDefault(); showDoc(doc.id); setTimeout(() => { document.getElementById('q-' + doc.id + '-' + idx).scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); };
+      nav.appendChild(a);
+    });
+  });
+  document.getElementById('q-count').textContent = allQuestions.reduce((s, x) => s + x.questions.length, 0);
+}
+
+function showDoc(id) {
+  document.querySelectorAll('.doc').forEach(d => d.classList.remove('active'));
+  document.getElementById('doc-' + id).classList.add('active');
+  document.querySelectorAll('.nav-doc').forEach(a => a.classList.toggle('active', a.dataset.doc === id));
+  const activeContent = document.querySelector('#doc-' + id + ' .md');
+  if (activeContent) buildToc(activeContent);
+  else document.getElementById('toc').innerHTML = '';
+  window.scrollTo(0, 0);
+}
+
+// Persist answers in localStorage
+function setupAutosave() {
+  document.addEventListener('input', (e) => {
+    const t = e.target;
+    if (t.tagName === 'TEXTAREA' && t.dataset.qkey) {
+      localStorage.setItem('answer:' + t.dataset.qkey, t.value);
+      showSaved();
+    }
+  });
+  document.querySelectorAll('textarea[data-qkey]').forEach(t => {
+    const saved = localStorage.getItem('answer:' + t.dataset.qkey);
+    if (saved) t.value = saved;
+  });
+}
+
+let savedTimer;
+function showSaved() {
+  const el = document.getElementById('saved');
+  el.classList.add('visible');
+  clearTimeout(savedTimer);
+  savedTimer = setTimeout(() => el.classList.remove('visible'), 1200);
+}
+
+function exportAnswers() {
+  const out = [];
+  out.push('# Answers to open questions');
+  out.push('Exported: ' + new Date().toISOString());
+  out.push('');
+  document.querySelectorAll('textarea[data-qkey]').forEach(t => {
+    if (!t.value.trim()) return;
+    const wrapper = document.getElementById(t.dataset.qkey);
+    const heading = wrapper.querySelector('h3, h4');
+    out.push('## ' + (heading ? heading.textContent : t.dataset.qkey));
+    out.push('');
+    out.push(t.value);
+    out.push('');
+  });
+  const text = out.join('\n');
+  const blob = new Blob([text], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'answers-' + new Date().toISOString().slice(0,10) + '.md';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function clearAnswers() {
+  if (!confirm('Clear all saved answers in this browser?')) return;
+  document.querySelectorAll('textarea[data-qkey]').forEach(t => {
+    localStorage.removeItem('answer:' + t.dataset.qkey);
+    t.value = '';
+  });
+}
+
+function handleHash() {
+  const id = (location.hash || '#overview').replace('#', '').split('-')[0];
+  const valid = ['overview', 'lyster', 'lumiverse'];
+  showDoc(valid.includes(id) ? id : 'overview');
+}
+
+async function init() {
+  const results = await Promise.all(DOCS.map(loadDoc));
+  buildQuestionsNav(results);
+  setupAutosave();
+  document.querySelectorAll('.nav-doc').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.dataset.doc;
+      history.replaceState(null, '', '#' + id);
+      showDoc(id);
+      e.preventDefault();
+    });
+  });
+  window.addEventListener('hashchange', handleHash);
+  handleHash();
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# Private: raw customer meeting audio + transcripts
+# (kept local only — not for publication)
+Meetings/
+
+# Node / build artifacts (in case we add anything later)
+node_modules/
+dist/
+.vercel
