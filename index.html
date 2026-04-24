@@ -110,8 +110,9 @@
       <div class="nav-group-title">Documents</div>
       <div class="nav">
         <a href="#overview" class="nav-doc" data-doc="overview">Overview</a>
-        <a href="#lyster" class="nav-doc" data-doc="lyster">Lyster</a>
-        <a href="#lumiverse" class="nav-doc" data-doc="lumiverse">Lumiverse</a>
+        <a href="#proposal" class="nav-doc" data-doc="proposal">Lystr proposal</a>
+        <a href="#lyster" class="nav-doc" data-doc="lyster">Lyster requirements</a>
+        <a href="#lumiverse" class="nav-doc" data-doc="lumiverse">Lumiverse requirements</a>
       </div>
     </div>
 
@@ -134,23 +135,34 @@
         <h1 style="margin:0; font-size: 28px; letter-spacing: -0.02em;">Two projects, one conversation</h1>
       </div>
       <div class="summary">
-        <p>After reviewing the meeting transcripts, we've separated the discussion into two distinct engagements. Each has its own requirements document, scope, and estimate. Use the sidebar to navigate between them. Open questions are highlighted in yellow — please fill in answers directly in the browser; they are saved locally.</p>
+        <p><strong>Lystr proposal (draft)</strong> is ready for review. The two requirements documents are the underlying working material that backs the proposal. Open questions in the requirements docs are highlighted in yellow — fill in answers directly in the browser; they're saved locally.</p>
       </div>
 
       <div class="kpi-grid">
-        <div class="kpi"><div class="kpi-label">Lyster total (est.)</div><div class="kpi-value">585k – 910k SEK</div></div>
-        <div class="kpi"><div class="kpi-label">Lumiverse total (est.)</div><div class="kpi-value">293k – 477k SEK</div></div>
-        <div class="kpi"><div class="kpi-label">Open questions</div><div class="kpi-value" id="q-count">—</div></div>
-        <div class="kpi"><div class="kpi-label">Rate (indicative)</div><div class="kpi-value">1 000 SEK/h</div></div>
+        <div class="kpi"><div class="kpi-label">Lystr Pilot</div><div class="kpi-value">235k – 310k SEK</div></div>
+        <div class="kpi"><div class="kpi-label">Lystr Launch ⭐</div><div class="kpi-value">555k – 860k SEK</div></div>
+        <div class="kpi"><div class="kpi-label">Lystr Scale</div><div class="kpi-value">680k – 1 080k SEK</div></div>
+        <div class="kpi"><div class="kpi-label">Lumiverse total</div><div class="kpi-value">293k – 477k SEK</div></div>
       </div>
 
-      <h2 style="border: none; padding-top: 8px;">Lyster — energy company</h2>
-      <p>Brand + explainer video + interactive website + sales deck. Constrained by stakeholder Johan (controls brand direction + ~800k members reach). Three collaboration options proposed.</p>
-      <p><a href="#lyster">Open Lyster document →</a></p>
+      <h2 style="border: none; padding-top: 8px;">Lystr proposal — the customer-facing document</h2>
+      <p>Three tiers (Pilot / Launch / Scale) with a clear recommendation on Launch, anchored in revenue math and measurement. Built to be readable by Alex in ~10 minutes.</p>
+      <p><a href="#proposal">Open proposal →</a></p>
 
-      <h2>Lumiverse — content &amp; distribution</h2>
+      <h2>Lyster requirements — working material behind the proposal</h2>
+      <p>Brand + explainer animation + website + platform tiers + sales deck. Includes Phase 0 baseline instrumentation to give Lystr its first real measurement of where leads come from.</p>
+      <p><a href="#lyster">Open Lyster requirements →</a></p>
+
+      <h2>Lumiverse requirements — separate engagement</h2>
       <p>Brand + PowerPoint master template (light + dark) + mockup sponsor pitch deck. Primary working tool for Alex; used daily, not just in pitches. Live-action / 3D renders deferred until a sponsor confirms.</p>
-      <p><a href="#lumiverse">Open Lumiverse document →</a></p>
+      <p><a href="#lumiverse">Open Lumiverse requirements →</a></p>
+    </section>
+
+    <section id="doc-proposal" class="doc">
+      <div class="doc-header">
+        <span class="doc-tag" style="background: rgba(92, 214, 140, 0.12); color: #5cd68c;">Proposal · Draft</span>
+      </div>
+      <div class="md" id="content-proposal">Loading…</div>
     </section>
 
     <section id="doc-lyster" class="doc">
@@ -178,6 +190,7 @@
 
 <script>
 const DOCS = [
+  { id: 'proposal', file: 'Proposal/lystr-proposal.md' },
   { id: 'lyster', file: 'Requirements/Lyster-requirements.md' },
   { id: 'lumiverse', file: 'Requirements/Lumiverse-requirements.md' }
 ];
@@ -340,7 +353,7 @@ function clearAnswers() {
 
 function handleHash() {
   const raw = (location.hash || '#overview').replace('#', '');
-  const valid = ['overview', 'lyster', 'lumiverse'];
+  const valid = ['overview', 'proposal', 'lyster', 'lumiverse'];
 
   // Direct doc anchor (#overview, #lyster, #lumiverse)
   if (valid.includes(raw)) { showDoc(raw); return; }
