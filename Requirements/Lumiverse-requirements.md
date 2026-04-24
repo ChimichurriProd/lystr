@@ -3,8 +3,13 @@
 **Customer:** Lumiverse (content & distribution venture under In Your Head, co-owned with Joakim Lundell)
 **Agency:** Sriracha
 **Document status:** Draft for customer approval
-**Version:** 0.1
+**Version:** 0.2
 **Date:** 2026-04-24
+
+**Changes since v0.1:**
+- Accounts ownership and rights/usage confirmed (carried over from Lyster v0.1 answers — same principles apply)
+- New **Section 10 — Confirmed decisions**
+- Open-question list in Section 7 reduced accordingly
 
 ---
 
@@ -102,42 +107,26 @@ The customer ("Alex") said he had not yet landed the value words. Before visual 
 
 **Proposal:** one 60-minute working session with Alex to land value words before brand concepting begins.
 
-### 7.2 Accounts & tooling ownership (applies across deliverables)
-Similar to the Lyster engagement, we assume Sriracha sets things up using Lumiverse's own accounts. This needs confirmation:
-- Does Lumiverse have its own Microsoft 365 / PowerPoint licensing, Dropbox, and any font/stock accounts, or will these be set up as part of this project?
-- Who holds credentials during and after the project?
-- Post-project: does Alex / In Your Head own the master template file outright, and can it be freely shared internally across In Your Head, Lumiverse, and Sriracha-adjacent collaborators?
-
-**Our recommendation:** Lumiverse owns all accounts and the master template file. Sriracha retains editable source files (Figma, AI projects) and delivers PowerPoint natively editable. No subscriptions held by Sriracha on Lumiverse's behalf.
-
-### 7.3 Working environment
+### 7.2 Working environment
 - The team uses Dropbox primarily (confirmed in meeting). Confirm Dropbox is where deliverables land.
 - PowerPoint is the required output format for the template (not Keynote, not Google Slides). Confirmed in meeting — noted for the record.
 
-### 7.4 Content rights for the mockup deck
+### 7.3 Content rights for the mockup deck
 The mockup deck will reference real potential sponsors (Google, Samsung, SJ, Strawberry). These are *pitch artifacts* and will be shown to those sponsors themselves — so logo use and product imagery are contextually appropriate. However:
 - Is Lumiverse comfortable with placeholder use of sponsor logos on the mockup slides, understanding it is pitch-only and never public?
 - For the *Flykten* format creative itself (concept, format mechanics) — who owns the IP? We assume Lumiverse / In Your Head; please confirm.
 
-### 7.5 Jocke & Jonna imagery
+### 7.4 Jocke & Jonna imagery
 The mockup deck uses Jocke & Jonna as on-screen talent. We assume Sriracha can use existing publicity photos of them under Lumiverse's rights as co-owners. Please confirm before we source imagery.
 
-### 7.6 Timeline (Section 6)
+### 7.5 Timeline (Section 6)
 - What is the actual deadline?
 - Is there a specific sponsor meeting we are targeting as the "ready by" moment?
 - Phased delivery acceptable (brand first, template second, mockup third) or all together?
 
-### 7.7 Rights & usage
-Same as the Lyster engagement:
-- **Buyout:** Lumiverse owns final assets outright. Recommended.
-- **License:** Sriracha retains ownership; Lumiverse licenses for defined uses.
-
-**Our recommendation:** full buyout, Sriracha retains portfolio and case-study rights (with the understanding that any reference to Jocke & Jonna in Sriracha's portfolio needs separate approval — celebrity likeness).
-
-Additional:
-- Font licensing — who holds the license (Lumiverse)?
-- Stock imagery used in the mockup deck — who pays and who holds the license?
-- Editable source files (Figma, AI) — delivered to Lumiverse or retained by Sriracha?
+### 7.6 Font + stock licensing
+- Fonts — Lumiverse holds the license; please confirm any preferred foundry or constraint.
+- Stock imagery used in the mockup deck — Lumiverse pays, Lumiverse holds license. Any preferred stock vendor (Getty, Adobe Stock, Shutterstock)?
 
 ## 8. Effort & price estimate
 
@@ -209,7 +198,16 @@ If Lumiverse wants to move faster / tighter, the mockup deck can be trimmed to 1
 
 ---
 
-## 10. Sign-off
+## 10. Confirmed decisions (from v0.1 open questions)
+
+Resolved between v0.1 and v0.2 and now locked. These mirror the confirmations from the Lyster engagement where the same principle applies:
+
+- **Accounts ownership** — Lumiverse owns every account (Dropbox, Microsoft 365 / PowerPoint, any font or stock accounts). Where an account doesn't exist, Sriracha sets it up in Lumiverse's name and hands over credentials at delivery. No subscriptions are held by Sriracha on Lumiverse's behalf.
+- **Source files** — Sriracha delivers all editable source files (Figma, Adobe, and the native `.pptx`) to Lumiverse at the end of the engagement.
+- **Rights & usage** — Full buyout. Lumiverse owns delivered assets outright. Sriracha retains portfolio and case-study rights only; any portfolio reference involving Jocke & Jonna requires separate approval (celebrity likeness).
+- **Working environment** — Deliverables land in Lumiverse's Dropbox. PowerPoint (`.pptx`) is the required template format; Keynote and Google Slides are not targets.
+
+## 11. Sign-off
 
 This document becomes the agreed scope when Lumiverse approves it in writing. Scope changes after sign-off are handled as change requests at the same hourly rate.
 
