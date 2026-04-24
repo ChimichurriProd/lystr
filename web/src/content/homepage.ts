@@ -125,13 +125,45 @@ export const pillars = [
 
 export const howItWorks = {
   eyebrow: "Så fungerar det",
-  title: "Vi balanserar din driftskostnad.",
-  body: [
-    "Din energikostnad består av tre delar: den el du köper, överföringsavgifter till nätägaren, och skatter.",
-    "Genom att producera din egen el och lagra den i ett stort hembatteri minskar du behovet av att köpa el från nätet. Den energi du själv producerar och använder är helt avgiftsfri — varken staten eller nätägaren kan ta ut skatter eller avgifter på din egen lagrade el.",
-    "De pengar du sparar med solceller och batteri — tillsammans med intäkterna från nätets stödtjänster — räknas direkt in i din kalkyl. På så sätt täcks kostnader för ränta, service och försäkring, och du får en trygg helhetslösning där vi sköter allt åt dig.",
-    "Efter avtalstiden (maximalt 8 år) sjunker dina energikostnader kraftigt — ner till en bråkdel av vad de en gång var.",
-  ],
+  title: "Samma månadskostnad. Helt annat värde.",
+  subtitle:
+    "Med Lystr betalar du ungefär samma månadsbelopp som idag — men pengarna bygger din egen energianläggning istället för att försvinna till kraftbolaget. Ändra beloppet nedan och se hur det ser ut för dig.",
+  presets: [1500, 2500, 3500, 5000],
+  phases: {
+    today: {
+      label: "Din kostnad idag",
+      caption: "Hela beloppet går till staten, nätägaren och kraftbolaget. Ingen del av det blir din egendom.",
+      // Swedish electricity cost breakdown (approximate, illustrative)
+      segments: [
+        { key: "skatt", label: "Skatt & moms", share: 0.30 },
+        { key: "nat", label: "Nätavgift", share: 0.35 },
+        { key: "el", label: "Elhandel", share: 0.35 },
+      ],
+    },
+    contract: {
+      label: "Med Lystr — år 1 till 8",
+      caption: "55% av din månadskostnad går till att betala av din egen anläggning. Efter 8 år äger du den.",
+      segments: [
+        { key: "amortering", label: "Amortering på din anläggning", share: 0.55 },
+        { key: "service", label: "Service & försäkring", share: 0.15 },
+        { key: "elgrid", label: "El från nätet", share: 0.30 },
+      ],
+    },
+    post: {
+      label: "Efter avtalstiden — år 9 och framåt",
+      caption: "75% lägre elkostnad för resten av anläggningens livstid (30–50 år). Helt egen produktion, plus ett litet tillskott från nätet vinterstid.",
+      // Only 25% of container width; single segment
+      relativeWidth: 0.25,
+      segments: [
+        { key: "elgrid-small", label: "El från nätet", share: 1.0 },
+      ],
+    },
+  },
+  insight: {
+    headline: "Samma månadskostnad — helt annan riktning.",
+    body:
+      "Lystr omfördelar din befintliga elkostnad. Istället för att alla pengar försvinner till externa aktörer går majoriteten av dem till att bygga din egen anläggning. Efter 8 år äger du hela systemet — och din elkostnad rasar.",
+  },
 };
 
 export const benefits = [
