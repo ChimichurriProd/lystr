@@ -58,7 +58,7 @@ export function HeroCalculatorForm({
     >
       <div className="flex items-baseline justify-between">
         <h2 className="text-xl font-semibold tracking-tight md:text-2xl">
-          Räkna ut din besparing
+          Få en gratis energirådgivning
         </h2>
         <span className="text-xs font-medium uppercase tracking-wider text-lystr-muted">
           ~2 min
@@ -159,7 +159,7 @@ export function HeroCalculatorForm({
         disabled={isSubmitting}
         className="mt-6 inline-flex h-14 w-full items-center justify-center rounded-full bg-lystr-red px-7 text-base font-semibold text-white transition-colors hover:bg-lystr-red-hover disabled:cursor-not-allowed disabled:bg-lystr-gray"
       >
-        {isSubmitting ? "Beräknar…" : "Räkna ut min besparing →"}
+        {isSubmitting ? "Beräknar…" : "Få min uppskattning →"}
       </button>
 
       <p className="mt-3 text-center text-xs text-lystr-muted">

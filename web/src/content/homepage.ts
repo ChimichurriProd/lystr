@@ -13,7 +13,7 @@ export const hero = {
   headline: "Byt elavtal.\nBehåll din ekonomi.\nÄg din energi.",
   subhead:
     "Teckna energiavtal med Lystr och få solceller och batteri utan att lägga en krona. Efter avtalstiden äger du din egen energiproduktion i 30+ år framåt.",
-  primaryCta: { label: "Räkna ut din besparing", href: "#kalkylator" },
+  primaryCta: { label: "Få en gratis energirådgivning", href: "#kalkylator" },
   secondaryCta: {
     label: "Boka möte direkt",
     href: "https://www.calendly.com/mathias-soderstrom-lystr",
@@ -89,17 +89,18 @@ export const calculator = {
 };
 
 export const leadForm = {
-  title: "Få en detaljerad offert på mejl",
-  subtitle: "Vi återkommer inom 1–2 arbetsdagar med en kalkyl baserad på dina uppgifter.",
+  title: "Anmäl ditt intresse — vi ringer upp",
+  subtitle:
+    "En av våra rådgivare ringer dig inom 1–2 arbetsdagar och går igenom siffrorna, taket och nästa steg. Inga säljskript, bara en rak konversation.",
   fields: {
     name: "För- och efternamn",
     email: "E-post",
-    phone: "Telefon (valfritt)",
+    phone: "Telefon",
   },
-  submit: "Skicka min uppgifter",
+  submit: "Bli uppringd",
   success: {
-    title: "Tack. Vi återkommer snart.",
-    body: "Vi mejlar dig en offert inom 1–2 arbetsdagar. Vill du prata direkt istället?",
+    title: "Tack. Vi hör av oss snart.",
+    body: "En rådgivare ringer dig inom 1–2 arbetsdagar. Vill du boka tid direkt istället?",
   },
   consent:
     "Genom att skicka godkänner du att Lystr kontaktar dig angående ditt intresse.",

@@ -14,7 +14,7 @@ export type LeadPayload = {
   housing: string;
   name: string;
   email: string;
-  phone?: string;
+  phone: string;
 };
 
 export type LeadResult =
@@ -25,6 +25,8 @@ function validate(data: Partial<LeadPayload>): string | null {
   if (!data.name || data.name.trim().length < 2) return "Ange ditt namn.";
   if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
     return "Ange en giltig e-postadress.";
+  if (!data.phone || data.phone.replace(/\D/g, "").length < 7)
+    return "Ange ett telefonnummer så att vi kan ringa upp dig.";
   if (!data.postnummer || !/^\d{3}\s?\d{2}$/.test(data.postnummer))
     return "Ange ett giltigt postnummer.";
   if (!data.monthlyBill || data.monthlyBill < 100)
@@ -43,7 +45,7 @@ export async function submitLead(
     housing: String(formData.get("housing") ?? ""),
     name: String(formData.get("name") ?? ""),
     email: String(formData.get("email") ?? ""),
-    phone: formData.get("phone") ? String(formData.get("phone")) : undefined,
+    phone: String(formData.get("phone") ?? ""),
   };
 
   const error = validate(payload);

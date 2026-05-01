@@ -1,69 +1,105 @@
-import { hero } from "@/content/homepage";
-import type { CalculatorSettings } from "../../sanity/lib/types";
-import { HeroCalculatorForm } from "./hero-calculator-form";
+import { Calculator } from "./calculator";
 
-const HOUSING_OPTIONS = [
-  { value: "villa", label: "Villa" },
-  { value: "radhus", label: "Radhus" },
-  { value: "fritidshus", label: "Fritidshus" },
-  { value: "lagenhet", label: "Lägenhet" },
-];
+/* ============================================================
+   Hero — Variant A · Manifesto + Calculator (production)
+   Variant B (Photo) is intentionally not shipped per the
+   handoff README ("What NOT to ship").
+   ============================================================ */
 
-export function Hero({ settings }: { settings: CalculatorSettings }) {
+export function Hero() {
   return (
-    <section className="bg-lystr-black text-white">
-      <div className="mx-auto max-w-(--container-narrow) px-6 pt-12 pb-20 md:px-10 md:pt-20 md:pb-28">
-        <div className="grid items-start gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-          <div className="max-w-xl">
-            <p className="mb-4 text-sm font-medium uppercase tracking-[0.12em] text-lystr-red">
-              {hero.eyebrow}
-            </p>
-            <h1 className="whitespace-pre-line text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
-              {hero.headline}
-            </h1>
-            <p className="mt-6 text-lg text-white/75 md:text-xl">
-              {hero.subhead}
-            </p>
+    <section
+      className="hero-manifesto"
+      style={{
+        background: "var(--bg-2)",
+        padding: "56px 0 80px",
+      }}
+    >
+      <div className="mx-auto grid max-w-(--container-marketing) grid-cols-1 items-center gap-10 px-[22px] md:grid-cols-[1fr_1.05fr] md:gap-[60px] md:px-8">
+        <div className="pt-2">
+          <EyebrowLine>Med solen som insats</EyebrowLine>
 
-            <ol className="mt-10 space-y-3 text-sm text-white/70">
-              <li className="flex items-center gap-3">
-                <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-lystr-red/90 text-xs font-semibold text-white">
-                  1
-                </span>
-                Räkna ut din besparing på ~2 minuter
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-white/15 text-xs font-semibold text-white">
-                  2
-                </span>
-                Prata med en rådgivare
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-white/15 text-xs font-semibold text-white">
-                  3
-                </span>
-                Installation klar på 6 veckor
-              </li>
-            </ol>
+          <h1
+            className="m-0 mb-6 font-display font-semibold text-pretty"
+            style={{
+              fontSize: "clamp(40px, 5.2vw, 68px)",
+              lineHeight: 1.02,
+              letterSpacing: "-0.025em",
+            }}
+          >
+            Lystr är inte ett{" "}
+            <span
+              className="font-medium"
+              style={{
+                color: "var(--fg-3)",
+                textDecoration: "line-through",
+                textDecorationThickness: "3px",
+                textDecorationColor: "var(--color-lystr-tomato)",
+              }}
+            >
+              elbolag
+            </span>
+            .
+            <br />
+            Lystr är{" "}
+            <span className="text-lystr-tomato">din&nbsp;energirådgivare.</span>
+          </h1>
 
-            <div className="mt-8">
-              <a
-                href={hero.secondaryCta.href}
-                className="inline-flex items-center gap-2 text-sm font-medium text-white/80 underline-offset-4 hover:text-white hover:underline"
-              >
-                Hellre prata direkt?
-                <span aria-hidden>→</span>
-              </a>
-            </div>
-          </div>
+          <p
+            className="m-0 mb-7 leading-[1.55]"
+            style={{
+              color: "var(--fg-2)",
+              fontSize: "clamp(16px, 1.4vw, 19px)",
+              maxWidth: "56ch",
+            }}
+          >
+            Solen är din enda insats — resten står vi för. Vi installerar
+            anläggningen och du betalar samma månadsbelopp som idag, fast nu
+            går pengarna till ditt eget tak istället för elbolaget. Efter åtta
+            år är den avbetald — solen fortsätter jobba i minst 22 år till.
+          </p>
 
-          <HeroCalculatorForm
-            presets={settings.billPresets}
-            ineligibleMessage={settings.ineligibleBody}
-            housingOptions={HOUSING_OPTIONS}
-          />
+          <ul
+            className="m-0 mt-7 flex list-none flex-col gap-2.5 p-0 text-[15px]"
+            style={{ color: "var(--fg-2)" }}
+          >
+            <Bullet>Ingen egen insats</Bullet>
+            <Bullet>Lägre månadskostnad från dag ett</Bullet>
+            <Bullet>Du äger anläggningen efter 8 år</Bullet>
+          </ul>
+        </div>
+
+        <div>
+          <Calculator />
         </div>
       </div>
     </section>
+  );
+}
+
+function EyebrowLine({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      className="mb-[18px] inline-flex items-center gap-2.5 text-[13px] font-medium uppercase tracking-[0.12em]"
+      style={{ color: "var(--eyebrow-color)" }}
+    >
+      <span
+        aria-hidden
+        className="inline-block h-px w-6 bg-current"
+      />
+      {children}
+    </div>
+  );
+}
+
+function Bullet({ children }: { children: React.ReactNode }) {
+  return (
+    <li className="flex items-center gap-3">
+      <span
+        aria-hidden
+        className="inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-lystr-tomato"
+      />
+      {children}
+    </li>
   );
 }

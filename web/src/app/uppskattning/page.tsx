@@ -26,12 +26,13 @@ export default async function UppskattningPage({
   const settings = remoteSettings ?? defaultCalculatorSettings;
 
   const billNum = Number(bill);
-  const postnummerValid = /^\d{3}\s?\d{2}$/.test(postnummer.trim());
+  // Postnummer is collected later in the lead form; only bill + housing
+  // are required to render a meaningful estimate.
   const billValid = billNum >= 500 && billNum <= 20000;
   const housingValid = ["villa", "radhus", "fritidshus", "lagenhet"].includes(
     housing,
   );
-  const isValid = postnummerValid && billValid && housingValid;
+  const isValid = billValid && housingValid;
   const isIneligible = housing === "lagenhet";
 
   return (
@@ -61,18 +62,24 @@ export default async function UppskattningPage({
 
 function InvalidParams() {
   return (
-    <section className="bg-lystr-cream">
+    <section style={{ background: "var(--bg-2)" }}>
       <div className="mx-auto max-w-(--container-narrow) px-6 py-20 text-center md:px-10 md:py-28">
-        <h1 className="text-3xl font-semibold tracking-tight text-lystr-black md:text-4xl">
+        <h1
+          className="font-display text-3xl font-semibold tracking-tight md:text-4xl"
+          style={{ color: "var(--fg-1)" }}
+        >
           Kalkylen saknar uppgifter
         </h1>
-        <p className="mx-auto mt-3 max-w-lg text-lystr-slate">
-          Vi behöver postnummer, månadskostnad och boendeform för att räkna ut
-          din uppskattning.
+        <p
+          className="mx-auto mt-3 max-w-lg"
+          style={{ color: "var(--fg-2)" }}
+        >
+          Vi behöver din månadskostnad och boendeform för att räkna ut din
+          uppskattning.
         </p>
         <Link
-          href="/#kalkylator"
-          className="mt-8 inline-flex h-12 items-center rounded-full bg-lystr-red px-7 text-base font-medium text-white hover:bg-lystr-red-hover"
+          href="/#kalkyl"
+          className="mt-8 inline-flex h-12 items-center rounded-full bg-lystr-tomato px-7 text-base font-medium text-white transition-colors hover:bg-lystr-tomato-hover"
         >
           Starta om kalkylen
         </Link>
@@ -83,15 +90,24 @@ function InvalidParams() {
 
 function IneligibleState({ title, body }: { title: string; body: string }) {
   return (
-    <section className="bg-lystr-cream">
+    <section style={{ background: "var(--bg-2)" }}>
       <div className="mx-auto max-w-(--container-narrow) px-6 py-20 text-center md:px-10 md:py-28">
-        <h1 className="text-3xl font-semibold tracking-tight text-lystr-black md:text-4xl">
+        <h1
+          className="font-display text-3xl font-semibold tracking-tight md:text-4xl"
+          style={{ color: "var(--fg-1)" }}
+        >
           {title}
         </h1>
-        <p className="mx-auto mt-4 max-w-xl text-lystr-slate">{body}</p>
+        <p
+          className="mx-auto mt-4 max-w-xl"
+          style={{ color: "var(--fg-2)" }}
+        >
+          {body}
+        </p>
         <Link
           href="/"
-          className="mt-8 inline-flex h-12 items-center rounded-full border border-lystr-line bg-white px-7 text-base font-medium text-lystr-black hover:border-lystr-black"
+          className="mt-8 inline-flex h-12 items-center rounded-full border bg-white px-7 text-base font-medium transition-colors hover:border-lystr-black"
+          style={{ borderColor: "var(--border)", color: "var(--fg-1)" }}
         >
           ← Tillbaka till start
         </Link>
