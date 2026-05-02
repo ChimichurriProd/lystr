@@ -3,20 +3,20 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Swedish address autocomplete backed by Photon (OSM-based, no API
- * key, no signup). Free public endpoint at photon.komoot.io. As the
- * user types, suggestions are fetched (300ms debounce) and rendered
- * in a dropdown. Selecting one fills hidden form fields for postcode,
- * city, region, and lat/lon — but the user can still type freely if
- * Photon doesn't have their address. The raw string is always
- * captured in the `address` field.
+ * Swedish address block — three visible fields (Adress, Postnummer,
+ * Ort) backed by Photon autocomplete on the street field. Selecting
+ * a suggestion fills all three; users can also edit any field
+ * manually so the lead is always complete even when Photon misses.
  *
- * If quality becomes a problem, swap the fetch URL to a paid service
- * (Mapbox, Google Places, or self-hosted Photon). Field shapes stay.
+ * The state/län value (auto-derived from postcode) and lat/lon ride
+ * along as hidden fields when the user picked a suggestion.
+ *
+ * Photon: free, OSM-based, no API key. Public endpoint at
+ * photon.komoot.io. If quality becomes a problem, swap the fetch
+ * URL for Mapbox/Google Places — field shapes stay identical.
  */
 
 type Suggestion = {
-  label: string;
   street: string;
   postcode: string;
   city: string;
@@ -49,15 +49,8 @@ function buildSuggestion(f: RawFeature): Suggestion | null {
   const street = housenumber ? `${streetName} ${housenumber}` : streetName;
   if (!street) return null;
 
-  const labelParts = [
-    street,
-    [postcode, city].filter(Boolean).join(" "),
-    state,
-  ].filter(Boolean);
-
   const coords = f.geometry?.coordinates;
   return {
-    label: labelParts.join(", "),
     street,
     postcode,
     city,
@@ -67,18 +60,33 @@ function buildSuggestion(f: RawFeature): Suggestion | null {
   };
 }
 
+type Defaults = {
+  address?: string;
+  postcode?: string;
+  city?: string;
+};
+
 export function AddressAutocomplete({
-  defaultValue = "",
+  defaults = {},
   fieldId = "mvp-address",
 }: {
-  defaultValue?: string;
+  defaults?: Defaults;
   fieldId?: string;
 }) {
-  const [query, setQuery] = useState(defaultValue);
+  const [street, setStreet] = useState(defaults.address ?? "");
+  const [postcode, setPostcode] = useState(defaults.postcode ?? "");
+  const [city, setCity] = useState(defaults.city ?? "");
+  // Region (län) and lat/lon ride hidden — populated only when the
+  // user picks a Photon suggestion. They re-set if a fresh suggestion
+  // is chosen later.
+  const [stateRegion, setStateRegion] = useState("");
+  const [coords, setCoords] = useState<{ lat?: number; lon?: number }>({});
+
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
-  const [selected, setSelected] = useState<Suggestion | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [highlighted, setHighlighted] = useState(0);
+  const [didJustPick, setDidJustPick] = useState(false);
+
   const wrapperRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const abortRef = useRef<AbortController | null>(null);
@@ -94,10 +102,15 @@ export function AddressAutocomplete({
     return () => document.removeEventListener("mousedown", onDocClick);
   }, []);
 
-  // Debounced fetch.
+  // Debounced fetch driven by the street field. Skips one cycle right
+  // after the user picks a suggestion so we don't immediately re-fetch
+  // for the value we just inserted.
   useEffect(() => {
-    if (selected) return; // user just picked; don't fetch again
-    const trimmed = query.trim();
+    if (didJustPick) {
+      setDidJustPick(false);
+      return;
+    }
+    const trimmed = street.trim();
     if (trimmed.length < 3) {
       setSuggestions([]);
       setIsOpen(false);
@@ -126,7 +139,6 @@ export function AddressAutocomplete({
         setIsOpen(items.length > 0);
         setHighlighted(0);
       } catch (err) {
-        // AbortError is expected during typing — ignore silently.
         if (err instanceof Error && err.name !== "AbortError") {
           setSuggestions([]);
         }
@@ -135,12 +147,16 @@ export function AddressAutocomplete({
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
-  }, [query, selected]);
+  }, [street, didJustPick]);
 
   function pick(s: Suggestion) {
-    setSelected(s);
-    setQuery(s.label);
+    setStreet(s.street);
+    setPostcode(s.postcode);
+    setCity(s.city);
+    setStateRegion(s.state);
+    setCoords({ lat: s.lat, lon: s.lon });
     setIsOpen(false);
+    setDidJustPick(true);
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -160,108 +176,153 @@ export function AddressAutocomplete({
   }
 
   return (
-    <div className="relative" ref={wrapperRef}>
-      <input
-        id={fieldId}
-        name="address"
-        type="text"
-        value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-          if (selected) setSelected(null);
-        }}
-        onFocus={() => {
-          if (suggestions.length > 0) setIsOpen(true);
-        }}
-        onKeyDown={onKeyDown}
-        placeholder="Hemvägen 12, Älta"
-        autoComplete="street-address"
-        required
-        aria-autocomplete="list"
-        aria-expanded={isOpen}
-        aria-controls={`${fieldId}-list`}
-        className="w-full rounded-xl border px-3 py-2.5 text-[14px] focus:outline-none focus:ring-2"
-        style={{
-          borderColor: "var(--border)",
-          background: "var(--bg-1)",
-          color: "var(--fg-1)",
-        }}
-      />
-
-      {/* Hidden fields populated when the user picks a suggestion. */}
-      <input type="hidden" name="postcode" value={selected?.postcode ?? ""} />
-      <input type="hidden" name="city" value={selected?.city ?? ""} />
-      <input type="hidden" name="state" value={selected?.state ?? ""} />
-      <input type="hidden" name="lat" value={selected?.lat ?? ""} />
-      <input type="hidden" name="lon" value={selected?.lon ?? ""} />
-
-      {/* Confirmation strip — small, mono, when a structured address
-          has been captured. */}
-      {selected && (
-        <p
-          className="mt-1.5 font-mono text-[11px]"
-          style={{ color: "var(--color-lystr-green-deep)" }}
+    <div className="flex flex-col gap-3" ref={wrapperRef}>
+      {/* Adress (street) — autocomplete-enabled */}
+      <div className="flex flex-col gap-1.5">
+        <label
+          htmlFor={fieldId}
+          className="text-[12px] font-medium uppercase tracking-[0.12em]"
+          style={{ color: "var(--fg-3)" }}
         >
-          ✓{" "}
-          {[
-            [selected.postcode, selected.city].filter(Boolean).join(" "),
-            selected.state,
-          ]
-            .filter(Boolean)
-            .join(" · ")}
-        </p>
-      )}
+          Adress
+        </label>
+        <div className="relative">
+          <input
+            id={fieldId}
+            name="address"
+            type="text"
+            value={street}
+            onChange={(e) => setStreet(e.target.value)}
+            onFocus={() => {
+              if (suggestions.length > 0) setIsOpen(true);
+            }}
+            onKeyDown={onKeyDown}
+            placeholder="Hemvägen 12"
+            autoComplete="street-address"
+            required
+            aria-autocomplete="list"
+            aria-expanded={isOpen}
+            aria-controls={`${fieldId}-list`}
+            className="w-full rounded-xl border px-3 py-2.5 text-[14px] focus:outline-none focus:ring-2"
+            style={{
+              borderColor: "var(--border)",
+              background: "var(--bg-1)",
+              color: "var(--fg-1)",
+            }}
+          />
 
-      {/* Suggestions dropdown */}
-      {isOpen && suggestions.length > 0 && (
-        <ul
-          id={`${fieldId}-list`}
-          role="listbox"
-          className="absolute left-0 right-0 top-full z-30 mt-1 max-h-72 overflow-y-auto rounded-xl border bg-white py-1 shadow-2xl"
-          style={{ borderColor: "var(--border)" }}
-        >
-          {suggestions.map((s, i) => (
-            <li
-              key={`${s.label}-${i}`}
-              role="option"
-              aria-selected={i === highlighted}
-              onMouseDown={(e) => {
-                e.preventDefault();
-                pick(s);
-              }}
-              onMouseEnter={() => setHighlighted(i)}
-              className="cursor-pointer px-3 py-2 text-[13px] leading-snug"
-              style={{
-                background:
-                  i === highlighted
-                    ? "var(--color-lystr-tomato-tint)"
-                    : "transparent",
-                color: i === highlighted
-                  ? "var(--color-lystr-tomato-deep)"
-                  : "var(--fg-1)",
-              }}
+          {isOpen && suggestions.length > 0 && (
+            <ul
+              id={`${fieldId}-list`}
+              role="listbox"
+              className="absolute left-0 right-0 top-full z-30 mt-1 max-h-72 overflow-y-auto rounded-xl border bg-white py-1 shadow-2xl"
+              style={{ borderColor: "var(--border)" }}
             >
-              <span className="block font-medium">{s.street}</span>
-              <span
-                className="block font-mono text-[11px]"
-                style={{
-                  color:
-                    i === highlighted
-                      ? "var(--color-lystr-tomato-deep)"
-                      : "var(--fg-3)",
-                }}
-              >
-                {[
-                  [s.postcode, s.city].filter(Boolean).join(" "),
-                  s.state,
-                ]
-                  .filter(Boolean)
-                  .join(" · ")}
-              </span>
-            </li>
-          ))}
-        </ul>
-      )}
+              {suggestions.map((s, i) => (
+                <li
+                  key={`${s.street}-${s.postcode}-${i}`}
+                  role="option"
+                  aria-selected={i === highlighted}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    pick(s);
+                  }}
+                  onMouseEnter={() => setHighlighted(i)}
+                  className="cursor-pointer px-3 py-2 text-[13px] leading-snug"
+                  style={{
+                    background:
+                      i === highlighted
+                        ? "var(--color-lystr-tomato-tint)"
+                        : "transparent",
+                    color:
+                      i === highlighted
+                        ? "var(--color-lystr-tomato-deep)"
+                        : "var(--fg-1)",
+                  }}
+                >
+                  <span className="block font-medium">{s.street}</span>
+                  <span
+                    className="block font-mono text-[11px]"
+                    style={{
+                      color:
+                        i === highlighted
+                          ? "var(--color-lystr-tomato-deep)"
+                          : "var(--fg-3)",
+                    }}
+                  >
+                    {[
+                      [s.postcode, s.city].filter(Boolean).join(" "),
+                      s.state,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      {/* Postnummer + Ort — visible, editable, side-by-side */}
+      <div className="grid grid-cols-[8rem_1fr] gap-3 md:grid-cols-[9rem_1fr]">
+        <div className="flex flex-col gap-1.5">
+          <label
+            htmlFor={`${fieldId}-postcode`}
+            className="text-[12px] font-medium uppercase tracking-[0.12em]"
+            style={{ color: "var(--fg-3)" }}
+          >
+            Postnummer
+          </label>
+          <input
+            id={`${fieldId}-postcode`}
+            name="postcode"
+            type="text"
+            inputMode="numeric"
+            value={postcode}
+            onChange={(e) => setPostcode(e.target.value)}
+            placeholder="138 36"
+            autoComplete="postal-code"
+            required
+            className="rounded-xl border px-3 py-2.5 text-[14px] focus:outline-none focus:ring-2"
+            style={{
+              borderColor: "var(--border)",
+              background: "var(--bg-1)",
+              color: "var(--fg-1)",
+            }}
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label
+            htmlFor={`${fieldId}-city`}
+            className="text-[12px] font-medium uppercase tracking-[0.12em]"
+            style={{ color: "var(--fg-3)" }}
+          >
+            Ort
+          </label>
+          <input
+            id={`${fieldId}-city`}
+            name="city"
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="Älta"
+            autoComplete="address-level2"
+            required
+            className="rounded-xl border px-3 py-2.5 text-[14px] focus:outline-none focus:ring-2"
+            style={{
+              borderColor: "var(--border)",
+              background: "var(--bg-1)",
+              color: "var(--fg-1)",
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Hidden — only sent when the user picked a suggestion. */}
+      <input type="hidden" name="state" value={stateRegion} />
+      <input type="hidden" name="lat" value={coords.lat ?? ""} />
+      <input type="hidden" name="lon" value={coords.lon ?? ""} />
     </div>
   );
 }

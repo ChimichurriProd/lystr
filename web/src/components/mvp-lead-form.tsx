@@ -66,19 +66,14 @@ export function MvpLeadForm() {
         autoComplete="email"
         defaultValue={values.email}
       />
-      <div className="flex flex-col gap-1.5">
-        <label
-          htmlFor="mvp-address"
-          className="text-[12px] font-medium uppercase tracking-[0.12em]"
-          style={{ color: "var(--fg-3)" }}
-        >
-          Adress
-        </label>
-        <AddressAutocomplete
-          fieldId="mvp-address"
-          defaultValue={values.address}
-        />
-      </div>
+      <AddressAutocomplete
+        fieldId="mvp-address"
+        defaults={{
+          address: values.address,
+          postcode: values.postcode,
+          city: values.city,
+        }}
+      />
 
       <div className="flex flex-col gap-1.5">
         <label

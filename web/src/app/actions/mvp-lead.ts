@@ -22,6 +22,8 @@ function validate(data: {
   phone: string;
   email: string;
   address: string;
+  postcode: string;
+  city: string;
 }): string | null {
   if (!data.name || data.name.trim().length < 2)
     return "Ange ditt namn så vi vet vem vi ringer upp.";
@@ -31,6 +33,10 @@ function validate(data: {
     return "Ange en giltig e-postadress.";
   if (!data.address || data.address.trim().length < 4)
     return "Ange din adress så vi kan göra en första takanalys.";
+  if (!data.postcode || !/^\d{3}\s?\d{2}$/.test(data.postcode.trim()))
+    return "Ange ett giltigt postnummer (t.ex. 138 36).";
+  if (!data.city || data.city.trim().length < 2)
+    return "Ange din ort.";
   return null;
 }
 
