@@ -66,8 +66,12 @@ export async function createLystrLead(input: LystrLeadInput): Promise<string> {
   // Each column type expects its own value shape — Monday rejects
   // mismatches. Skip anything we don't have a column ID for.
   if (cols.phone && input.phone) {
+    // Monday's phone column rejects formatting characters. Strip
+    // anything that's not a digit or a leading + so "070 123 45 67"
+    // becomes "0701234567".
+    const cleaned = input.phone.replace(/[^\d+]/g, "");
     columnValues[cols.phone] = {
-      phone: input.phone,
+      phone: cleaned,
       countryShortName: "SE",
     };
   }
